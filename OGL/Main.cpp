@@ -9,6 +9,47 @@
 */
 #include <iostream>
 
+#include "OGLEngine.hpp"
+#include "OGL_STATUS_CODE.hpp"
+
+/**
+	Prototypes a namespace to prevent global naming conflicts
+*/
+namespace ogl {
+
+	/**
+		Handles main initialization of everything
+
+		@return		Returns OGL_SC_SUCCESS on success
+		@return		Returns OGL_SC_UNKNOWN_ERROR on error
+	*/
+	OGL_STATUS_CODE init(void);
+
+}
+
+namespace ogl {
+
+	OGLEngine engine;
+
+	OGL_STATUS_CODE init() {
+	
+		try {
+		
+			return engine.init();
+		
+		}
+		catch (const std::exception& e) {
+		
+			std::cerr << e.what() << std::endl;
+
+			return OGL_SC_UNKNOWN_ERROR;
+		
+		}
+	
+	}
+
+}
+
 /**
 	Entry point for the application
 */

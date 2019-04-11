@@ -13,6 +13,37 @@
 
 OGL_STATUS_CODE OGLEngine::init() {
 
+	std::cout << "Hello from OGLEngine!" << std::endl;
+
+	initWindow();
+	initOpenGL();
+	loop();
+	clean();
+
+	return OGL_SC_SUCCESS;
+
+}
+
+OGL_STATUS_CODE OGLEngine::initWindow() {
+
+	return OGL_SC_SUCCESS;
+
+}
+
+OGL_STATUS_CODE OGLEngine::initOpenGL() {
+
+	return OGL_SC_SUCCESS;
+
+}
+
+OGL_STATUS_CODE OGLEngine::loop() {
+
+	return OGL_SC_SUCCESS;
+
+}
+
+OGL_STATUS_CODE OGLEngine::clean() {
+
 	return OGL_SC_SUCCESS;
 
 }
