@@ -29,28 +29,28 @@
 
 // Default values
 #if !defined VK_DEVELOPMENT && !defined VK_RELEASE && !defined VK_RELEASE_CONSOLE
-#define VK_DEVELOPMENT
+    #define VK_DEVELOPMENT
 #endif
 
 #if !defined VK_WINDOW_MODE_WINDOWED && !defined VK_WINDOW_MODE_FULLSCREEN && !defined VK_WINDOW_MODE_BORDERLESS
-#define VK_WINDOW_MODE_UNDEFINED
+    #define VK_WINDOW_MODE_UNDEFINED
 #endif
 
 #if !defined WIN_64 && !defined WIN_32 && !defined MACOSX && !defined LINUX
-#define WIN_64
+    #define WIN_64
 #endif
 
 #ifdef VK_RELEASE_CONSOLE
-#define VK_RELEASE
+    #define VK_RELEASE
 #endif
 
 #if !defined VK_DEVELOPMENT && !defined VK_RELEASE_CONSOLE && defined VK_RELEASE && (defined WIN_64 || defined WIN_32)
-#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+    #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 #endif
 
 #ifndef NOMINMAX
-#if defined WIN_64 || defined WIN_32
-#define NOMINMAX        // Fixes std::min/std::max/std::clamp error
-#include <Windows.h>
-#endif
+    #if defined WIN_64 || defined WIN_32
+        #define NOMINMAX        // Fixes std::min/std::max/std::clamp error
+        #include <Windows.h>
+    #endif
 #endif // NOMINMAX

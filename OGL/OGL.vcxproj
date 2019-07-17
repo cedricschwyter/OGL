@@ -108,7 +108,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\OGL\ext\assimp-x64\include;$(SolutionDir)\OGL\ext\stbimage;$(SolutionDir)\OGL\ext\SDL\include;$(SolutionDir)\OGL\ext\glm;$(SolutionDir)\OGL\ext\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\OGL\ext\glad\src;$(SolutionDir)\OGL\ext\glad\include;$(SolutionDir)\OGL\ext\assimp-x64\include;$(SolutionDir)\OGL\ext\stbimage;$(SolutionDir)\OGL\ext\SDL\include;$(SolutionDir)\OGL\ext\glm;$(SolutionDir)\OGL\ext\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -120,6 +120,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ASSERT.cpp" />
+    <ClCompile Include="ext\glad\src\glad.c" />
     <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="LOGGER_STATUS_CODE.cpp" />
@@ -128,6 +129,7 @@
     <ClCompile Include="OGL.cpp" />
     <ClCompile Include="OGLEngine.cpp" />
     <ClCompile Include="SDL_STATUS_CODE.cpp" />
+    <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleColor.hpp" />
@@ -137,7 +139,21 @@
     <ClInclude Include="OGL.hpp" />
     <ClInclude Include="OGLEngine.hpp" />
     <ClInclude Include="OGL_STATUS_CODE.hpp" />
+    <ClInclude Include="Shader.hpp" />
     <ClInclude Include="Version.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assimp-vc142-mt.dll" />
+    <None Include="libjpeg-9.dll" />
+    <None Include="libpng16-16.dll" />
+    <None Include="libtiff-5.dll" />
+    <None Include="libwebp-7.dll" />
+    <None Include="SDL2.dll" />
+    <None Include="SDL2_image.dll" />
+    <None Include="shaders\standard\shader.frag" />
+    <None Include="shaders\standard\shader.vert" />
+    <None Include="zlib.dll" />
+    <None Include="zlib1.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
