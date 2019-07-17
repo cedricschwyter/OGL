@@ -63,14 +63,21 @@ private:
     bool                                    initialized                 = false;
     std::vector< float >                    vertices                    = {
     
-        -0.5f, -0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-         0.0f,  0.5f, 0.0f
+        0.5f,  0.5f, 0.0f,  // top right
+        0.5f, -0.5f, 0.0f,  // bottom right
+        -0.5f, -0.5f, 0.0f,  // bottom left
+        -0.5f,  0.5f, 0.0f   // top left     
+    };
+    std::vector< uint32_t >                 indices                     = { 
+        
+        0, 1, 3, 
+        1, 2, 3
     
     };
     Shader*                                 standardShader;
     uint32_t                                VAO;
     uint32_t                                VBO;
+    uint32_t                                EBO;
 
     /**
         Initializes the loading screen
