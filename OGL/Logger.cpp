@@ -87,7 +87,7 @@ namespace logger {
                     << msg_ << std::endl;
 
                 stream.close();
-#if (defined VK_DEVELOPMENT || defined VK_RELEASE_CONSOLE) && (defined WIN_64 || WIN_32)
+#if (defined OGL_DEVELOPMENT || defined OGL_RELEASE_CONSOLE) && (defined WIN_64 || WIN_32)
                 std::cerr << green << Day << white << ":"
                     << green << Month << white << ":"
                     << green << Year << white << "   "
@@ -124,7 +124,7 @@ namespace logger {
                     << msg_ << std::endl;
 
                 stream.close();
-#if (defined VK_DEVELOPMENT || defined VK_RELEASE_CONSOLE) && (defined WIN_64 || WIN_32)
+#if (defined OGL_DEVELOPMENT || defined OGL_RELEASE_CONSOLE) && (defined WIN_64 || WIN_32)
                 std::cerr << green << Day << white << ":"
                     << green << Month << white << ":"
                     << green << Year << white << "   "
@@ -177,7 +177,7 @@ namespace logger {
                     << msg_ << std::endl;
 
                 stream.close();
-#if (defined VK_DEVELOPMENT || defined VK_RELEASE_CONSOLE) && (defined WIN_64 || WIN_32)
+#if (defined OGL_DEVELOPMENT || defined OGL_RELEASE_CONSOLE) && (defined WIN_64 || WIN_32)
                 std::cout << green << Day << white << ":"
                     << green << Month << white << ":"
                     << green << Year << white << "   "
@@ -211,7 +211,7 @@ namespace logger {
                     << msg_ << std::endl;
 
                 stream.close();
-#if (defined VK_DEVELOPMENT || defined VK_RELEASE_CONSOLE) && (defined WIN_64 || WIN_32)
+#if (defined OGL_DEVELOPMENT || defined OGL_RELEASE_CONSOLE) && (defined WIN_64 || WIN_32)
                 std::cout << green << Day << white << ":"
                     << green << Month << white << ":"
                     << green << Year << white << "   "
@@ -239,7 +239,7 @@ namespace logger {
         }
 
         if (log_ == ERROR_LOG) {
-#ifdef VK_DEVELOPMENT
+#ifdef OGL_DEVELOPMENT
             __debugbreak();
 #else
             throw std::runtime_error(msg_);

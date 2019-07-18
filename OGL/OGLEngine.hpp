@@ -63,10 +63,12 @@ private:
     bool                                    initialized                 = false;
     std::vector< float >                    vertices                    = {
     
-        0.5f,  0.5f, 0.0f,  // top right
-        0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  // bottom left
-        -0.5f,  0.5f, 0.0f   // top left     
+        // positions          // colors           // texture coords
+        0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+        0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left  
+    
     };
     std::vector< uint32_t >                 indices                     = { 
         
@@ -78,6 +80,7 @@ private:
     uint32_t                                VAO;
     uint32_t                                VBO;
     uint32_t                                EBO;
+    uint32_t                                tex;
 
     /**
         Initializes the loading screen
@@ -172,6 +175,20 @@ private:
         @return     Returns OGL_SC_SUCCESS on success
     */
     OGL_STATUS_CODE initializeViewport(void);
+
+    /**
+        Creates textures
+    
+        @return     Returns OGL_SC_SUCCESS on success
+    */
+    OGL_STATUS_CODE generateTextures(void);
+
+    /**
+        Sets pre-render-loop options
+
+        @return     Returns OGL_SC_SUCCESS on success
+    */
+    OGL_STATUS_CODE setup(void);
 
 };
 

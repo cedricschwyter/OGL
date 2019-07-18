@@ -37,12 +37,7 @@ void OGLEngine::initLoadingScreen() {
     loadingScreen = new LoadingScreen();
 
     logger::log(EVENT_LOG, "Starting loading screen thread...");
-    std::thread t0([=]() {
-
-        loadingScreen->loop();
-        logger::log(EVENT_LOG, "Stopping loading screen thread...");
-
-        });
+    std::thread t0(&LoadingScreen::loop, loadingScreen);
     t0.detach();
 
 }
@@ -68,7 +63,7 @@ OGL_STATUS_CODE OGLEngine::initWindow() {
     monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
-#ifdef VK_WINDOW_MODE_FULLSCREEN
+#ifdef OGL_WINDOW_MODE_FULLSCREEN
     glfwWindowHint(GLFW_RED_BITS, mode->redBits);
     glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
     glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
@@ -82,7 +77,7 @@ OGL_STATUS_CODE OGLEngine::initWindow() {
         nullptr
     );
 #endif
-#if defined VK_WINDOW_MODE_WINDOWED
+#if defined OGL_WINDOW_MODE_WINDOWED
     window = glfwCreateWindow(
         ogl::WIDTH,
         ogl::HEIGHT,
@@ -97,7 +92,7 @@ OGL_STATUS_CODE OGLEngine::initWindow() {
         mode->height / 2 - ogl::HEIGHT / 2
     );
 #endif
-#if defined VK_WINDOW_MODE_BORDERLESS || defined VK_WINDOW_MODE_UNDEFINED
+#if defined OGL_WINDOW_MODE_BORDERLESS || defined OGL_WINDOW_MODE_UNDEFINED
     window = glfwCreateWindow(
         mode->width,
         mode->height,
@@ -111,7 +106,7 @@ OGL_STATUS_CODE OGLEngine::initWindow() {
 
     GLFWimage windowIcon[1];
     windowIcon[0].pixels = stbi_load(
-        "res/textures/loading_screen/infinity.jpg",
+        "res/textures/application/minimalist-lion-wallpaper-cropped.png",
         &windowIcon[0].width,
         &windowIcon[0].height,
         0,
@@ -146,6 +141,7 @@ OGL_STATUS_CODE OGLEngine::initOpenGL() {
     ASSERT(initializeViewport(), "Failed to initialize viewport", OGL_SC_VIEWPORT_ERROR);
     ASSERT(generateShaders(), "Failed to load shaders", OGL_SC_SHADER_CREATION_ERROR);
     ASSERT(generateBuffers(), "Failed to generate vertex buffers", OGL_SC_BUFFER_CREATION_ERROR);
+    ASSERT(generateTextures(), "Failed to load textures", OGL_SC_TEXTURE_CREATION_ERROR);
 
     if (!initialized) {
 
@@ -163,6 +159,8 @@ OGL_STATUS_CODE OGLEngine::initOpenGL() {
 }
 
 OGL_STATUS_CODE OGLEngine::loop() {
+
+    setup();
 
     while (!glfwWindowShouldClose(window)) {
     
@@ -229,6 +227,21 @@ OGL_STATUS_CODE OGLEngine::processKeyboardInput() {
     if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
         glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 
+    if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
+    if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_RELEASE)
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+    return ogl::errorCodeBuffer;
+
+}
+
+OGL_STATUS_CODE OGLEngine::setup() {
+
+    standardShader->use();
+    standardShader->setInt("inTexture", 0);
+
     return ogl::errorCodeBuffer;
 
 }
@@ -239,6 +252,8 @@ OGL_STATUS_CODE OGLEngine::render() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     standardShader->use();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, tex);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
@@ -265,10 +280,28 @@ OGL_STATUS_CODE OGLEngine::generateBuffers() {
         3,
         GL_FLOAT,
         GL_FALSE,
-        3 * sizeof(float), 
+        8 * sizeof(float), 
         (void*)0
         );
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(
+        1,
+        3,
+        GL_FLOAT,
+        GL_FALSE,
+        8 * sizeof(float),
+        (void*)(3 * sizeof(float))
+        );
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(
+        2, 
+        2, 
+        GL_FLOAT,
+        GL_FALSE, 
+        8 * sizeof(float), 
+        (void*)(6 * sizeof(float))
+        );
+    glEnableVertexAttribArray(2);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -288,6 +321,50 @@ OGL_STATUS_CODE OGLEngine::generateShaders() {
 OGL_STATUS_CODE OGLEngine::initializeViewport() {
 
     glViewport(0, 0, ogl::WIDTH, ogl::HEIGHT);
+
+    return ogl::errorCodeBuffer;
+
+}
+
+OGL_STATUS_CODE OGLEngine::generateTextures() {
+
+    int32_t w, h, c;
+    stbi_set_flip_vertically_on_load(true);
+
+    auto texture = stbi_load(
+        "res/textures/application/minimalist-lion-wallpaper.jpg",
+        &w, 
+        &h, 
+        &c, 
+        0
+        );
+
+    if (!texture) {
+    
+        logger::log(ERROR_LOG, "Failed to load texture image");
+
+    }
+
+    glGenTextures(1, &tex);
+    glBindTexture(GL_TEXTURE_2D, tex);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(
+        GL_TEXTURE_2D, 
+        0, 
+        GL_RGB, 
+        w, 
+        h, 
+        0, 
+        GL_RGB, 
+        GL_UNSIGNED_BYTE, 
+        texture
+        );
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+    stbi_image_free(texture);
 
     return ogl::errorCodeBuffer;
 

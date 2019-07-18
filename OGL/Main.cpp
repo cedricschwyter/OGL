@@ -9,7 +9,6 @@
 */
 #include "OGL.hpp"
 
-
 /**
 	Entry point for the application
 */

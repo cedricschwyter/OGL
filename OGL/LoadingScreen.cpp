@@ -12,7 +12,6 @@
 
 SDL_STATUS_CODE LoadingScreen::loop() {
 
-
     SDL_Event e;
 
     while (!close) {
@@ -41,6 +40,7 @@ SDL_STATUS_CODE LoadingScreen::loop() {
     }
 
     clean();
+    logger::log(EVENT_LOG, "Stopping loading screen thread...");
 
     return SDL_SC_SUCCESS;
 
@@ -81,7 +81,7 @@ LoadingScreen::LoadingScreen() {
 
     }
 
-    imageSurface = IMG_Load("res/textures/loading_screen/infinity.jpg");
+    imageSurface = IMG_Load("res/textures/loading_screen/minimalist-lion-wallpaper.png");
     if (imageSurface == NULL) {
 
         std::string error = SDL_GetError();

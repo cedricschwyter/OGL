@@ -11,40 +11,40 @@
 #include "Makros.hpp"
 
 // Edit configuration here
-//#define VK_DEVELOPMENT      // enable this for verbose output
-//#define VK_RELEASE          // enable this for performance
-//#define VK_RELEASE_CONSOLE    // enbable this for performance with console
+//#define OGL_DEVELOPMENT      // enable this for verbose output
+//#define OGL_RELEASE          // enable this for performance
+//#define OGL_RELEASE_CONSOLE    // enbable this for performance with console
 
-#define VK_WINDOW_MODE_WINDOWED
-//#define VK_WINDOW_MODE_FULLSCREEN
-//#define VK_WINDOW_MODE_BORDERLESS
+#define OGL_WINDOW_MODE_WINDOWED
+//#define OGL_WINDOW_MODE_FULLSCREEN
+//#define OGL_WINDOW_MODE_BORDERLESS
 
 #define WIN_64                // Windows 64-bit
 //#define WIN_32              // Windows 32-bit
 //#define MACOSX              // macOS X 64-bit
 //#define LINUX               // Linux 64-bit
 
-//#define VK_STANDARD_MODEL_LOADING_LIB VKEngineModelLoadingLibTINYOBJ
-#define VK_STANDARD_MODEL_LOADING_LIB VKEngineModelLoadingLibASSIMP
+//#define OGL_STANDARD_MODEL_LOADING_LIB VKEngineModelLoadingLibTINYOBJ
+#define OGL_STANDARD_MODEL_LOADING_LIB VKEngineModelLoadingLibASSIMP
 
 // Default values
-#if !defined VK_DEVELOPMENT && !defined VK_RELEASE && !defined VK_RELEASE_CONSOLE
-    #define VK_DEVELOPMENT
+#if !defined OGL_DEVELOPMENT && !defined OGL_RELEASE && !defined OGL_RELEASE_CONSOLE
+    #define OGL_DEVELOPMENT
 #endif
 
-#if !defined VK_WINDOW_MODE_WINDOWED && !defined VK_WINDOW_MODE_FULLSCREEN && !defined VK_WINDOW_MODE_BORDERLESS
-    #define VK_WINDOW_MODE_UNDEFINED
+#if !defined OGL_WINDOW_MODE_WINDOWED && !defined OGL_WINDOW_MODE_FULLSCREEN && !defined OGL_WINDOW_MODE_BORDERLESS
+    #define OGL_WINDOW_MODE_UNDEFINED
 #endif
 
 #if !defined WIN_64 && !defined WIN_32 && !defined MACOSX && !defined LINUX
     #define WIN_64
 #endif
 
-#ifdef VK_RELEASE_CONSOLE
-    #define VK_RELEASE
+#ifdef OGL_RELEASE_CONSOLE
+    #define OGL_RELEASE
 #endif
 
-#if !defined VK_DEVELOPMENT && !defined VK_RELEASE_CONSOLE && defined VK_RELEASE && (defined WIN_64 || defined WIN_32)
+#if !defined OGL_DEVELOPMENT && !defined OGL_RELEASE_CONSOLE && defined OGL_RELEASE && (defined WIN_64 || defined WIN_32)
     #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 #endif
 

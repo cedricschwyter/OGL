@@ -11,6 +11,7 @@
 
 typedef enum OGL_STATUS_CODE {
 
+    OGL_SC_TEXTURE_CREATION_ERROR                   = -10, 
     OGL_SC_BUFFER_CREATION_ERROR                    = -9,
     OGL_SC_SHADER_CREATION_ERROR                    = -8,
     OGL_SC_VIEWPORT_ERROR                           = -7,
