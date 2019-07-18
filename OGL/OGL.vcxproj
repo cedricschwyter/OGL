@@ -120,7 +120,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ASSERT.cpp" />
+    <ClCompile Include="BaseCamera.cpp" />
+    <ClCompile Include="CenterCamera.cpp" />
     <ClCompile Include="ext\glad\src\glad.c" />
+    <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="LOGGER_STATUS_CODE.cpp" />
@@ -132,7 +135,10 @@
     <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseCamera.hpp" />
+    <ClInclude Include="CenterCamera.hpp" />
     <ClInclude Include="ConsoleColor.hpp" />
+    <ClInclude Include="FPSCamera.hpp" />
     <ClInclude Include="LoadingScreen.hpp" />
     <ClInclude Include="Logger.hpp" />
     <ClInclude Include="Makros.hpp" />

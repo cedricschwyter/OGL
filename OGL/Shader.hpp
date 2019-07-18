@@ -8,7 +8,9 @@
     @brief		Definition of the Shader class
 */
 #pragma once
-#include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <string>
 #include <fstream>
@@ -63,6 +65,13 @@ public:
     */
     void setFloat(const std::string& name_, float value_) const;
 
+    /**
+        Sets a uniform of type mat4 in the shader
+
+        @param      name_       The name of the uniform
+        @param      value_      The value to set
+    */
+    void setMat4(const std::string& name, glm::mat4 value) const;
 
     /**
         Default destructor

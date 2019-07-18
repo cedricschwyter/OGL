@@ -9,7 +9,6 @@
 */
 #version 330 core
 
-in vec3 outCol;
 in vec2 outTex;
 
 out vec4 FragColor;

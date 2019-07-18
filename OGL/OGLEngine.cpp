@@ -15,8 +15,11 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-void OGLEngine::init(OGL_STATUS_CODE* returnCodeAddr_) {
+uint32_t OGLEngine::width = ogl::WIDTH;
+uint32_t OGLEngine::height = ogl::HEIGHT;
 
+void OGLEngine::init(OGL_STATUS_CODE* returnCodeAddr_) {
+    
     logger::log(START_LOG, "Initializing...");
     logger::log(EVENT_LOG, "Initializing loading screen...");
     initLoadingScreen();
@@ -142,6 +145,7 @@ OGL_STATUS_CODE OGLEngine::initOpenGL() {
     ASSERT(generateShaders(), "Failed to load shaders", OGL_SC_SHADER_CREATION_ERROR);
     ASSERT(generateBuffers(), "Failed to generate vertex buffers", OGL_SC_BUFFER_CREATION_ERROR);
     ASSERT(generateTextures(), "Failed to load textures", OGL_SC_TEXTURE_CREATION_ERROR);
+    ASSERT(createCamera(), "Failed to create camera", OGL_SC_CAMERA_CREATION_ERROR);
 
     if (!initialized) {
 
@@ -222,27 +226,32 @@ OGL_STATUS_CODE OGLEngine::clean() {
     glDeleteBuffers(1, &VBO);
     logger::log(EVENT_LOG, "Successfully destroyed all allocated buffers");
 
+    delete camera;
+    logger::log(EVENT_LOG, "Successfully destroyed camera");
+
 	return ogl::errorCodeBuffer;
 
 }
 
 void OGLEngine::framebufferResizeCallback(GLFWwindow* window_, int width_, int height_) {
 
+    width = width_;
+    height = height_;
     glViewport(0, 0, width_, height_);
 
 }
 
 void OGLEngine::mouseMoveCallback(GLFWwindow* window_, double xPos_, double yPos_) {
 
-    /*auto oglengine = reinterpret_cast< OGLEngine* >(glfwGetWindowUserPointer(window_));
-    oglengine->camera->processMouseMovement(xPos_, yPos_);*/
+    auto oglengine = reinterpret_cast< OGLEngine* >(glfwGetWindowUserPointer(window_));
+    oglengine->camera->processMouseMovement(xPos_, yPos_);
 
 }
 
 void OGLEngine::mouseScrollCallback(GLFWwindow* window_, double xOff_, double yOff_) {
 
-    /*auto oglengine = reinterpret_cast< OGLEngine* >(glfwGetWindowUserPointer(window_));
-    oglengine->camera->processMouseScroll(xOff_, yOff_);*/
+    auto oglengine = reinterpret_cast< OGLEngine* >(glfwGetWindowUserPointer(window_));
+    oglengine->camera->processMouseScroll(xOff_, yOff_);
 
 }
 
@@ -266,6 +275,36 @@ OGL_STATUS_CODE OGLEngine::processKeyboardInput() {
     if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_RELEASE)
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
+    if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS) {
+
+        static double start = glfwGetTime() - 1.0;      // -1.0 prevents bug for first time switch
+        double now = glfwGetTime();
+        static bool pressed = false;
+
+        if (now - start > 0.5) {
+
+            delete camera;
+            if (pressed) {
+
+                glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+                camera = new FPSCamera();
+                pressed = false;
+            }
+            else {
+
+                glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+                camera = new CenterCamera(ORIGIN, 5.0f);
+                pressed = true;
+
+            }
+            start = glfwGetTime();
+
+        }
+
+    }
+
+    camera->processKeyboardInput(window);
+
     return ogl::errorCodeBuffer;
 
 }
@@ -274,6 +313,7 @@ OGL_STATUS_CODE OGLEngine::setup() {
 
     standardShader->use();
     standardShader->setInt("inTexture", 0);
+    glEnable(GL_DEPTH_TEST);
 
     return ogl::errorCodeBuffer;
 
@@ -282,13 +322,24 @@ OGL_STATUS_CODE OGLEngine::setup() {
 OGL_STATUS_CODE OGLEngine::render() {
 
     glClearColor(122.0f / 255.0f, 122.0f / 255.0f, 122.0f / 255.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glm::mat4 model = glm::mat4(1.0f); 
+    model = glm::rotate(model, static_cast< float >(glfwGetTime()) * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+
+    glm::mat4 view = camera->getViewMatrix();
+
+    glm::mat4 projection;
+    projection = glm::perspective(static_cast< float >(glm::radians(camera->fov)), static_cast< float >(width / height), 0.1f, 100.0f);
 
     standardShader->use();
+    standardShader->setMat4("model", model);
+    standardShader->setMat4("view", view);
+    standardShader->setMat4("projection", projection);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, tex);
     glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
     glBindVertexArray(0);
 
     return ogl::errorCodeBuffer;
@@ -313,28 +364,19 @@ OGL_STATUS_CODE OGLEngine::generateBuffers() {
         3,
         GL_FLOAT,
         GL_FALSE,
-        8 * sizeof(float), 
+        5 * sizeof(float), 
         (void*)0
         );
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(
-        1,
-        3,
-        GL_FLOAT,
-        GL_FALSE,
-        8 * sizeof(float),
-        (void*)(3 * sizeof(float))
-        );
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(
-        2, 
+        1, 
         2, 
         GL_FLOAT,
         GL_FALSE, 
-        8 * sizeof(float), 
-        (void*)(6 * sizeof(float))
+        5 * sizeof(float), 
+        (void*)(3 * sizeof(float))
         );
-    glEnableVertexAttribArray(2);
+    glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -398,6 +440,14 @@ OGL_STATUS_CODE OGLEngine::generateTextures() {
     glGenerateMipmap(GL_TEXTURE_2D);
 
     stbi_image_free(texture);
+
+    return ogl::errorCodeBuffer;
+
+}
+
+OGL_STATUS_CODE OGLEngine::createCamera() {
+
+    camera = new FPSCamera();
 
     return ogl::errorCodeBuffer;
 

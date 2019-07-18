@@ -10,6 +10,8 @@
 #pragma once
 #include "Version.hpp"
 
+#include <glad/glad.h>
+
 #include "OGLEngine.hpp"
 #include "OGL_STATUS_CODE.hpp"
 
@@ -25,6 +27,14 @@ namespace ogl {
     extern const unsigned int                   WIDTH;
     extern const unsigned int                   HEIGHT;
     extern const char*                          TITLE;
+
+    // Starting/Default camera state values
+    extern const double                         YAW;
+    extern const double                         PITCH;
+    extern const double                         ROLL;
+    extern const double                         SPEED;
+    extern const double                         SENS;
+    extern const double                         FOV;
 
     /**
         Initializes the OGLEngine object

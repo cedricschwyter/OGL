@@ -141,21 +141,27 @@ OGL_STATUS_CODE Shader::use() {
 
 }
 
-void Shader::setBool(const std::string& name, bool value) const {
+void Shader::setBool(const std::string& name_, bool value_) const {
 
-    glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
-
-}
-
-void Shader::setInt(const std::string& name, int32_t value) const {
-
-    glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
+    glUniform1i(glGetUniformLocation(ID, name_.c_str()), (int)value_);
 
 }
 
-void Shader::setFloat(const std::string& name, float value) const {
+void Shader::setInt(const std::string& name_, int32_t value_) const {
 
-    glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+    glUniform1i(glGetUniformLocation(ID, name_.c_str()), value_);
+
+}
+
+void Shader::setFloat(const std::string& name_, float value_) const {
+
+    glUniform1f(glGetUniformLocation(ID, name_.c_str()), value_);
+
+}
+
+void Shader::setMat4(const std::string& name_, glm::mat4 value_) const {
+
+    glUniformMatrix4fv(glGetUniformLocation(ID, name_.c_str()), 1, GL_FALSE, glm::value_ptr(value_));
 
 }
 

@@ -20,6 +20,12 @@ namespace ogl {
     const unsigned int          WIDTH                           = 1280;
     const unsigned int          HEIGHT                          = 720;
     const char*                 TITLE                           = "OGL by D3PSI";
+    const double                YAW                             = 0.0;
+    const double                PITCH                           = 0.0;
+    const double                ROLL                            = 0.0;
+    const double                SPEED                           = 2.0;
+    const double                SENS                            = 0.1;
+    const double                FOV                             = 45.0;
 
     OGL_STATUS_CODE init() {
     
