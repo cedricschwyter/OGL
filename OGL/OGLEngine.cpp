@@ -160,10 +160,43 @@ OGL_STATUS_CODE OGLEngine::initOpenGL() {
 
 OGL_STATUS_CODE OGLEngine::loop() {
 
+    double                    lastTime = glfwGetTime();
+
     setup();
 
     while (!glfwWindowShouldClose(window)) {
     
+        static double       pastTime = 0;
+        static float        nbFrames = 0;
+        static float        maxfps = 0;
+        double              currentTime = glfwGetTime();
+        double              deltaTime = currentTime - pastTime;
+
+        pastTime = currentTime;
+
+        nbFrames++;
+        float seconds = 10.0f;
+
+        if (currentTime - lastTime >= 1.0 && nbFrames > maxfps) {
+
+            maxfps = nbFrames;
+
+        }
+
+        if (currentTime - lastTime >= seconds) {
+
+            std::string fps = "Average FPS (last " + std::to_string(seconds) + " seconds):    %f\t";
+            std::string frametime = "Average Frametime (last " + std::to_string(seconds) + " seconds):    %f ms\t";
+            std::string maxFPS = "Max FPS:    %f\n";
+
+            printf(fps.c_str(), double(nbFrames / seconds));
+            printf(frametime.c_str(), double((1000.0 * seconds) / nbFrames));
+            printf(maxFPS.c_str(), double(maxfps / seconds));
+            nbFrames = 0;
+            lastTime += seconds;
+
+        }
+
         processKeyboardInput();
 
         render();
