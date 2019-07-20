@@ -14,7 +14,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #define GLM_FORCE_RADIANS
-#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -31,6 +30,8 @@
 #include "BaseCamera.hpp"
 #include "FPSCamera.hpp"
 #include "CenterCamera.hpp"
+#include "BaseVertex.hpp"
+#include "Model.hpp"
 
 class OGLEngine {
 public:
@@ -127,6 +128,7 @@ private:
     uint32_t                                EBO;
     uint32_t                                tex;
     BaseCamera*                             camera;
+    Model*                                  testModel;
 
     /**
         Initializes the loading screen

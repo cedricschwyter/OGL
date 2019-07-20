@@ -11,6 +11,8 @@
 
 typedef enum OGL_STATUS_CODE {
 
+    OGL_SC_MODEL_LOADING_ERROR_ASSIMP               = -13,
+    OGL_SC_RESOURCE_LOADING_ERROR                   = -12,
     OGL_SC_CAMERA_CREATION_ERROR                    = -11,
     OGL_SC_TEXTURE_CREATION_ERROR                   = -10, 
     OGL_SC_BUFFER_CREATION_ERROR                    = -9,

@@ -121,6 +121,7 @@
   <ItemGroup>
     <ClCompile Include="ASSERT.cpp" />
     <ClCompile Include="BaseCamera.cpp" />
+    <ClCompile Include="BaseVertex.hpp" />
     <ClCompile Include="CenterCamera.cpp" />
     <ClCompile Include="ext\glad\src\glad.c" />
     <ClCompile Include="FPSCamera.cpp" />
@@ -129,10 +130,14 @@
     <ClCompile Include="LOGGER_STATUS_CODE.cpp" />
     <ClCompile Include="LOG_TYPE.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="OGL.cpp" />
     <ClCompile Include="OGLEngine.cpp" />
     <ClCompile Include="SDL_STATUS_CODE.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="TextureObject.cpp" />
+    <ClCompile Include="TEXTURE_TYPE.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseCamera.hpp" />
@@ -142,6 +147,8 @@
     <ClInclude Include="LoadingScreen.hpp" />
     <ClInclude Include="Logger.hpp" />
     <ClInclude Include="Makros.hpp" />
+    <ClInclude Include="Mesh.hpp" />
+    <ClInclude Include="Model.hpp" />
     <ClInclude Include="OGL.hpp" />
     <ClInclude Include="OGLEngine.hpp" />
     <ClInclude Include="OGL_STATUS_CODE.hpp" />
