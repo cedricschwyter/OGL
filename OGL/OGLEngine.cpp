@@ -362,7 +362,7 @@ OGL_STATUS_CODE OGLEngine::generateBuffers() {
 
     for (auto info : modelLoadingQueue) {
 
-        std::thread* t0 = new std::thread([=]() {
+        //std::thread* t0 = new std::thread([=]() {
 
                 Shader shader;
                 if (info.second == ST_STANDARD) {
@@ -378,8 +378,8 @@ OGL_STATUS_CODE OGLEngine::generateBuffers() {
                 modelsPushBackMutex.unlock();
                 logger::log(EVENT_LOG, "Successfully loaded model at " + std::string(info.first));
 
-            });
-        modelLoadingQueueThreads.push_back(t0);
+          //  });
+        //modelLoadingQueueThreads.push_back(t0);
 
     }
 
