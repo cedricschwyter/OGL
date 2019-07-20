@@ -15,8 +15,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-uint32_t OGLEngine::width = ogl::WIDTH;
-uint32_t OGLEngine::height = ogl::HEIGHT;
+int OGLEngine::width = ogl::WIDTH;
+int OGLEngine::height = ogl::HEIGHT;
 
 OGLEngine::OGLEngine() {
 
@@ -247,8 +247,8 @@ OGL_STATUS_CODE OGLEngine::clean() {
 
 void OGLEngine::framebufferResizeCallback(GLFWwindow* window_, int width_, int height_) {
 
-    width = width_;
-    height = height_;
+    OGLEngine::width = width_;
+    OGLEngine::height = height_;
     glViewport(0, 0, width_, height_);
 
 }
@@ -337,7 +337,8 @@ OGL_STATUS_CODE OGLEngine::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glm::mat4 model = glm::mat4(1.0f); 
-    model = glm::scale(model, glm::vec3(0.2f));
+    model = glm::scale(model, glm::vec3(0.02f));
+    model = glm::translate(model, glm::vec3(0.0f, -10.0f, 0.0f));
 
     glm::mat4 view = camera->getViewMatrix();
 

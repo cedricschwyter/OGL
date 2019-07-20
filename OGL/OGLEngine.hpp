@@ -80,8 +80,8 @@ private:
 
     GLFWwindow*                                             window;
     GLFWmonitor*                                            monitor;
-    static uint32_t                                         width;
-    static uint32_t                                         height;
+    static int                                              width;
+    static int                                              height;
     LoadingScreen*                                          loadingScreen               = nullptr;
     bool                                                    initialized                 = false;
     std::vector< float >                                    vertices                    = {
