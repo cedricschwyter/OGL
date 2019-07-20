@@ -22,6 +22,7 @@ public:
     std::vector< uint32_t >                                 indices;
     std::vector< TextureObject >                            textures;
     uint32_t                                                VAO;
+    Shader                                                  shader;
 
     /**
         Constructor
@@ -46,7 +47,6 @@ public:
 private:
 
     uint32_t VBO, EBO;
-    Shader shader;
 
 };
 

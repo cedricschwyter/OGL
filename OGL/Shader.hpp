@@ -28,6 +28,11 @@ public:
     uint32_t ID;
 
     /**
+        Default constructor
+    */
+    Shader() = default;
+
+    /**
         Constructor
 
         @param      vertPath_       The (relative) path to the vertex shader source file

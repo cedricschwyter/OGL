@@ -25,6 +25,6 @@ typedef enum OGL_STATUS_CODE {
     OGL_SC_WINDOW_ERROR                             = -2,
 	OGL_SC_UNKNOWN_ERROR		                    = -1,
 	OGL_SC_SUCCESS				                    = 0,
-    OGL_SC_ERROR_CODE_BUFFER_NOT_INITIALIZED        = 1
+    OGL_SC_ERROR_CODE_BUFFER_NOT_INITIALIZED        = OGL_SC_SUCCESS
 
 } OGL_STATUS_CODE;

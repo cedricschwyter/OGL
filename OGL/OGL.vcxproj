@@ -136,6 +136,7 @@
     <ClCompile Include="OGLEngine.cpp" />
     <ClCompile Include="SDL_STATUS_CODE.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="SHADER_TYPE.cpp" />
     <ClCompile Include="TextureObject.cpp" />
     <ClCompile Include="TEXTURE_TYPE.cpp" />
   </ItemGroup>

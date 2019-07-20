@@ -15,7 +15,6 @@
 #include "OGLEngine.hpp"
 #include "OGL_STATUS_CODE.hpp"
 
-
 /**
     Prototypes a namespace to prevent global naming conflicts
 */
@@ -77,5 +76,15 @@ namespace ogl {
         @return        Returns an std::vector< char > containing the binary content of the specified input file
     */
     const std::vector< char > loadFile(const std::string& filePath_);
+
+    /**
+        Adds a model to the model loading queue
+
+        @param      path_       The path to the model
+        @param      shader_     The shader to render the model with
+
+        @return     Returns OGL_SC_SUCCESS on success
+    */
+    OGL_STATUS_CODE push(const char* path_, SHADER_TYPE shader_);
 
 }

@@ -109,9 +109,10 @@ Mesh* Model::processASSIMPMesh(aiMesh* mesh_, const aiScene* scene_) {
             uniqueVertices[vertex] = static_cast< uint32_t >(vertices.size());
             vertices.push_back(vertex);
 
-            indices.push_back(uniqueVertices[vertex]);
 
         }
+
+        indices.push_back(uniqueVertices[vertex]);
     
     }
 

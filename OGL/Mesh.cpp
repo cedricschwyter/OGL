@@ -47,7 +47,7 @@ Mesh::Mesh(std::vector< BaseVertex >& vertices_, std::vector< uint32_t >& indice
     glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(BaseVertex), (void*)offsetof(BaseVertex, bit));
 
     glBindVertexArray(0);
-    
+
 }
 
 void Mesh::draw() {
@@ -94,15 +94,18 @@ void Mesh::draw() {
     }
 
     glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, static_cast< GLsizei >(indices.size()), GL_UNSIGNED_INT, 0);
+    
     glBindVertexArray(0);
-
     glActiveTexture(GL_TEXTURE0);
 
 }
 
 Mesh::~Mesh() {
 
-
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
+    logger::log(EVENT_LOG, "Successfully destroyed buffers of mesh");
 
 }

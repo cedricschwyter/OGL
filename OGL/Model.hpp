@@ -19,6 +19,7 @@ class Model
 public:
 
     std::vector< Mesh* >                                        meshes;
+    Shader                                                      shader;
 
     /**
         Constructor
@@ -41,7 +42,6 @@ public:
 private:
 
     std::string                                                 directory;
-    Shader                                                      shader;
     std::vector< TextureObject >                                texturesLoaded;
 
     /**

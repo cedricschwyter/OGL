@@ -10,7 +10,10 @@
 #version 330 core
 
 layout(location = 0) in vec3 pos;
-layout(location = 1) in vec2 tex;
+layout(location = 1) in vec3 nor;
+layout(location = 2) in vec2 tex;
+layout(location = 3) in vec3 tan;
+layout(location = 4) in vec3 bit;
 
 out vec2 outTex;
 

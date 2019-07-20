@@ -14,6 +14,24 @@
 
 #include <functional>
 
+namespace ogl {
+
+    /**
+        Defines a templated hash-function to combine the fields of structs for a decent quality hash function
+
+        @param      hash_       The previously computed hash
+        @param      field_      The field to add to the hash
+    */
+    template < class T >
+    void hashField(std::size_t& hash_, const T& field_) {
+
+        std::hash< T > hashFunc;
+        hash_ ^= hashFunc(field_) + 0x9e3779b9 + (hash_ << 6) + (hash_ >> 2);
+
+    }
+
+}
+
 struct BaseVertex {
 
     glm::vec3 pos;
@@ -45,8 +63,15 @@ namespace std {
 
         size_t operator()(BaseVertex const& vertex) const noexcept {
 
-            return (std::hash< glm::vec3 >()(vertex.pos) ^
-                (std::hash< glm::vec2 >()(vertex.tex)) << 1);
+            std::size_t result = 0;
+
+            ogl::hashField(result, vertex.pos);
+            ogl::hashField(result, vertex.nor);
+            ogl::hashField(result, vertex.tex);
+            ogl::hashField(result, vertex.tan);
+            ogl::hashField(result, vertex.bit);
+
+            return result;
 
         }
 

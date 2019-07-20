@@ -16,6 +16,8 @@ int main() {
 
     ogl::init();
 
+    ogl::push("res/models/nanosuit/nanosuit.obj", ST_STANDARD);
+
 	return ogl::run();
 
 }

@@ -32,14 +32,17 @@
 #include "CenterCamera.hpp"
 #include "BaseVertex.hpp"
 #include "Model.hpp"
+#include "SHADER_TYPE.cpp"
 
 class OGLEngine {
 public:
 
+    Shader* standardShader;
+
     /**
         Default constructor
     */
-    OGLEngine(void) = default;
+    OGLEngine(void);
 
     /**
         Default destructor
@@ -56,6 +59,16 @@ public:
 	void init(OGL_STATUS_CODE* returnCodeAddr_);
 
     /**
+        Adds a model to the model loading queue
+
+        @param      path_       The path to the model
+        @param      shader_     The shader to render the model with
+
+        @return     Returns OGL_SC_SUCCESS on success
+    */
+    OGL_STATUS_CODE push(const char* path_, SHADER_TYPE shader_);
+
+    /**
         Initializes the logger
 
         @return        Returns LOGGER_SC_SUCCESS on success
@@ -65,13 +78,13 @@ public:
 
 private:
 
-    GLFWwindow*                             window;
-    GLFWmonitor*                            monitor;
-    static uint32_t                         width;
-    static uint32_t                         height;
-    LoadingScreen*                          loadingScreen               = nullptr;
-    bool                                    initialized                 = false;
-    std::vector< float >                    vertices                    = {
+    GLFWwindow*                                             window;
+    GLFWmonitor*                                            monitor;
+    static uint32_t                                         width;
+    static uint32_t                                         height;
+    LoadingScreen*                                          loadingScreen               = nullptr;
+    bool                                                    initialized                 = false;
+    std::vector< float >                                    vertices                    = {
     
         -1.0f, -1.0f, -1.0f,  0.0f, 0.0f,
          1.0f, -1.0f, -1.0f,  1.0f, 0.0f,
@@ -116,27 +129,36 @@ private:
         -1.0f,  1.0f, -1.0f,  0.0f, 1.0f
     
     };
-    std::vector< uint32_t >                 indices                     = { 
+    std::vector< uint32_t >                                 indices                     = { 
         
         0, 1, 3, 
         1, 2, 3
     
     };
-    Shader*                                 standardShader;
-    uint32_t                                VAO;
-    uint32_t                                VBO;
-    uint32_t                                EBO;
-    uint32_t                                tex;
-    BaseCamera*                             camera;
-    Model*                                  testModel;
+    uint32_t                                                VAO;
+    uint32_t                                                VBO;
+    uint32_t                                                EBO;
+    uint32_t                                                tex;
+    BaseCamera*                                             camera;
+    std::vector< Model* >                                   models;
+    std::mutex                                              modelsPushBackMutex;
+    std::vector< std::pair< const char*, SHADER_TYPE > >    modelLoadingQueue;
+    std::vector< std::thread* >                             modelLoadingQueueThreads;
 
     /**
         Initializes the loading screen
     */
     void initLoadingScreen(void);
 
+    /**
+        Initializes the windowing library
+
+        @return		Returns OGL_SC_SUCCESS on success
+    */
+    OGL_STATUS_CODE initGLFW(void);
+
 	/**
-		Initializes the windowing library
+		Initializes the window
 
 		@return		Returns OGL_SC_SUCCESS on success
 	*/
@@ -204,6 +226,13 @@ private:
     OGL_STATUS_CODE render(void);
 
     /**
+        Generate shaders
+
+        @return     Returns OGL_SC_SUCCESS on success
+    */
+    OGL_STATUS_CODE generateShaders(void);
+
+    /**
         Generates necessary buffers
 
         @return     Returns OGL_SC_SUCCESS on success
@@ -211,25 +240,11 @@ private:
     OGL_STATUS_CODE generateBuffers(void);
 
     /**
-        Generate OpenGL shader objects
-
-        @return     Returns OGL_SC_SUCCESS on success
-    */
-    OGL_STATUS_CODE generateShaders(void);
-
-    /**
         Initializes OpenGL's viewport
 
         @return     Returns OGL_SC_SUCCESS on success
     */
     OGL_STATUS_CODE initializeViewport(void);
-
-    /**
-        Creates textures
-    
-        @return     Returns OGL_SC_SUCCESS on success
-    */
-    OGL_STATUS_CODE generateTextures(void);
 
     /**
         Sets pre-render-loop options
