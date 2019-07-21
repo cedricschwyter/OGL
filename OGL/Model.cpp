@@ -35,7 +35,7 @@ void Model::draw() {
 OGL_STATUS_CODE Model::loadOBJASSIMP(const char* path_) {
 
     Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile(path_, aiProcess_Triangulate);
+    const aiScene* scene = importer.ReadFile(path_, aiProcess_Triangulate | aiProcess_FlipUVs);
 
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 
@@ -76,19 +76,27 @@ Mesh* Model::processASSIMPMesh(aiMesh* mesh_, const aiScene* scene_) {
 
     std::vector< BaseVertex >                                vertices;
     std::vector< uint32_t >                                  indices;
-    TextureObject                                            texture;
 
     std::unordered_map< BaseVertex, uint32_t >               uniqueVertices         = {};
 
     for (uint32_t i = 0; i < mesh_->mNumVertices; i++) {
 
-        BaseVertex vertex;
+        BaseVertex vertex = {};
 
         glm::vec3 vector;
         vector.x            = mesh_->mVertices[i].x;
         vector.y            = mesh_->mVertices[i].y;
         vector.z            = mesh_->mVertices[i].z;
         vertex.pos          = vector;
+
+        if (mesh_->HasNormals()) {
+
+            vector.x            = mesh_->mNormals[i].x;
+            vector.y            = mesh_->mNormals[i].y;
+            vector.z            = mesh_->mNormals[i].z;
+            vertex.nor          = vector;
+
+        }
 
         if (mesh_->mTextureCoords[0]) {     // Does the mesh contain texture coordinates?
         
@@ -102,6 +110,20 @@ Mesh* Model::processASSIMPMesh(aiMesh* mesh_, const aiScene* scene_) {
 
             vertex.tex      = glm::vec2(0.0f, 0.0f);
         
+        }
+
+        if(mesh_->HasTangentsAndBitangents()) {
+
+            vector.x            = mesh_->mTangents[i].x;
+            vector.y            = mesh_->mTangents[i].y;
+            vector.z            = mesh_->mTangents[i].z;
+            vertex.tan          = vector;
+
+            vector.x            = mesh_->mBitangents[i].x;
+            vector.y            = mesh_->mBitangents[i].y;
+            vector.z            = mesh_->mBitangents[i].z;
+            vertex.bit          = vector;
+
         }
 
         if (uniqueVertices.count(vertex) == 0) {

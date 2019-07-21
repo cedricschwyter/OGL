@@ -15,7 +15,7 @@
 //#define OGL_RELEASE          // enable this for performance
 //#define OGL_RELEASE_CONSOLE    // enbable this for performance with console
 
-//#define OGL_WINDOW_MODE_WINDOWED
+#define OGL_WINDOW_MODE_WINDOWED
 //#define OGL_WINDOW_MODE_FULLSCREEN
 //#define OGL_WINDOW_MODE_BORDERLESS
 
