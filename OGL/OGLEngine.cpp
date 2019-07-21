@@ -88,7 +88,7 @@ OGL_STATUS_CODE OGLEngine::initWindow() {
     window = glfwCreateWindow(
         mode->width,
         mode->height,
-        vk::TITLE,
+        ogl::TITLE,
         monitor,
         nullptr
     );
@@ -112,7 +112,7 @@ OGL_STATUS_CODE OGLEngine::initWindow() {
     window = glfwCreateWindow(
         mode->width,
         mode->height,
-        vk::TITLE,
+        ogl::TITLE,
         monitor,
         nullptr
     );
@@ -374,9 +374,8 @@ OGL_STATUS_CODE OGLEngine::generateBuffers() {
 
                 Model* model = new Model(info.first, shader);
 
-                modelsPushBackMutex.lock();
-                models.push_back(model);
-                modelsPushBackMutex.unlock();
+                std::scoped_lock< std::mutex > lock(modelsPushBackMutex);
+                models.push_back(model);;
                 logger::log(EVENT_LOG, "Successfully loaded model at " + std::string(info.first));
 
           //  });
@@ -405,7 +404,8 @@ OGL_STATUS_CODE OGLEngine::generateShaders() {
 
 OGL_STATUS_CODE OGLEngine::initializeViewport() {
 
-    glViewport(0, 0, ogl::WIDTH, ogl::HEIGHT);
+    glfwGetFramebufferSize(window, &OGLEngine::width, &OGLEngine::height);
+    glViewport(0, 0, width, height);
 
     return ogl::errorCodeBuffer;
 
