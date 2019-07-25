@@ -32,13 +32,13 @@ void CenterCamera::processKeyboardInput(GLFWwindow* window_) {
 
     if (glfwGetKey(window_, GLFW_KEY_W) == GLFW_PRESS) {
     
-        pitch -= 1.0 * sens * camSpeed;
+        pitch += 1.0 * sens * camSpeed;
     
     }
 
     if (glfwGetKey(window_, GLFW_KEY_S) == GLFW_PRESS) {
 
-        pitch += 1.0 * sens * camSpeed;
+        pitch -= 1.0 * sens * camSpeed;
 
     }
 

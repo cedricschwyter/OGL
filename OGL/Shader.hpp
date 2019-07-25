@@ -25,6 +25,13 @@ class Shader
 {
 public:
 
+    uint32_t ID;
+
+    /**
+        Default constructor
+    */
+    Shader() = default;
+
     /**
         Constructor
 
@@ -77,10 +84,6 @@ public:
         Default destructor
     */
     ~Shader(void);
-
-private:
-
-    uint32_t ID;
 
 };
 

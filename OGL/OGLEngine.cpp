@@ -15,14 +15,21 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-uint32_t OGLEngine::width = ogl::WIDTH;
-uint32_t OGLEngine::height = ogl::HEIGHT;
+int OGLEngine::width = ogl::WIDTH;
+int OGLEngine::height = ogl::HEIGHT;
+
+OGLEngine::OGLEngine() {
+
+    ASSERT(initLogger(), "Logger initialization error", LOGGER_SC_UNKNOWN_ERROR);
+    logger::log(START_LOG, "Initializing...");
+
+}
 
 void OGLEngine::init(OGL_STATUS_CODE* returnCodeAddr_) {
-    
-    logger::log(START_LOG, "Initializing...");
+
     logger::log(EVENT_LOG, "Initializing loading screen...");
     initLoadingScreen();
+    ASSERT(initGLFW(), "GLFW initialization error", OGL_SC_WINDOW_ERROR);
     ASSERT(initWindow(), "Window initialization error", OGL_SC_WINDOW_ERROR);
     ASSERT(initOpenGL(), "OpenGL initialization error", OGL_SC_OPENGL_ERROR);
     ASSERT(loop(), "OpenGL runtime error", OGL_SC_OPENGL_RUNTIME_ERROR);
@@ -51,7 +58,7 @@ LOGGER_STATUS_CODE OGLEngine::initLogger() {
 
 }
 
-OGL_STATUS_CODE OGLEngine::initWindow() {
+OGL_STATUS_CODE OGLEngine::initGLFW() {
 
     logger::log(EVENT_LOG, "Initializing window...");
     glfwInit();
@@ -62,6 +69,12 @@ OGL_STATUS_CODE OGLEngine::initWindow() {
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
     glfwWindowHint(GLFW_FOCUSED, GLFW_TRUE);
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+
+    return ogl::errorCodeBuffer;
+
+}
+
+OGL_STATUS_CODE OGLEngine::initWindow() {
 
     monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
@@ -75,7 +88,7 @@ OGL_STATUS_CODE OGLEngine::initWindow() {
     window = glfwCreateWindow(
         mode->width,
         mode->height,
-        vk::TITLE,
+        ogl::TITLE,
         monitor,
         nullptr
     );
@@ -99,13 +112,14 @@ OGL_STATUS_CODE OGLEngine::initWindow() {
     window = glfwCreateWindow(
         mode->width,
         mode->height,
-        vk::TITLE,
+        ogl::TITLE,
         monitor,
         nullptr
     );
 #endif
 
     glfwMakeContextCurrent(window);
+    glfwSwapInterval(0);
 
     GLFWimage windowIcon[1];
     windowIcon[0].pixels = stbi_load(
@@ -142,9 +156,8 @@ OGL_STATUS_CODE OGLEngine::initOpenGL() {
 
     ASSERT(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize GLAD-function-loader for OpenGL", OGL_SC_GLAD_INITIALIZATION_ERROR);
     ASSERT(initializeViewport(), "Failed to initialize viewport", OGL_SC_VIEWPORT_ERROR);
-    ASSERT(generateShaders(), "Failed to load shaders", OGL_SC_SHADER_CREATION_ERROR);
+    ASSERT(generateShaders(), "Failed to generate shaders", OGL_SC_SHADER_CREATION_ERROR);
     ASSERT(generateBuffers(), "Failed to generate vertex buffers", OGL_SC_BUFFER_CREATION_ERROR);
-    ASSERT(generateTextures(), "Failed to load textures", OGL_SC_TEXTURE_CREATION_ERROR);
     ASSERT(createCamera(), "Failed to create camera", OGL_SC_CAMERA_CREATION_ERROR);
 
     if (!initialized) {
@@ -220,11 +233,11 @@ OGL_STATUS_CODE OGLEngine::loop() {
 
 OGL_STATUS_CODE OGLEngine::clean() {
 
-    delete standardShader;
+    for (auto model : models) {
 
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    logger::log(EVENT_LOG, "Successfully destroyed all allocated buffers");
+        delete model;
+
+    }
 
     delete camera;
     logger::log(EVENT_LOG, "Successfully destroyed camera");
@@ -235,8 +248,8 @@ OGL_STATUS_CODE OGLEngine::clean() {
 
 void OGLEngine::framebufferResizeCallback(GLFWwindow* window_, int width_, int height_) {
 
-    width = width_;
-    height = height_;
+    OGLEngine::width = width_;
+    OGLEngine::height = height_;
     glViewport(0, 0, width_, height_);
 
 }
@@ -311,9 +324,9 @@ OGL_STATUS_CODE OGLEngine::processKeyboardInput() {
 
 OGL_STATUS_CODE OGLEngine::setup() {
 
-    standardShader->use();
-    standardShader->setInt("inTexture", 0);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 
     return ogl::errorCodeBuffer;
 
@@ -325,22 +338,22 @@ OGL_STATUS_CODE OGLEngine::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glm::mat4 model = glm::mat4(1.0f); 
-    model = glm::rotate(model, static_cast< float >(glfwGetTime()) * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+    model = glm::scale(model, glm::vec3(0.02f));
 
     glm::mat4 view = camera->getViewMatrix();
 
     glm::mat4 projection;
-    projection = glm::perspective(static_cast< float >(glm::radians(camera->fov)), static_cast< float >(width / height), 0.1f, 100.0f);
-
-    standardShader->use();
-    standardShader->setMat4("model", model);
-    standardShader->setMat4("view", view);
-    standardShader->setMat4("projection", projection);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, tex);
-    glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    glBindVertexArray(0);
+    projection = glm::perspective(static_cast< float >(glm::radians(camera->fov)), width / static_cast< float >(height), 0.1f, 100.0f);
+    
+    for (auto mod : models) {
+    
+        mod->shader.use();
+        mod->shader.setMat4("model", model);
+        mod->shader.setMat4("view", view);
+        mod->shader.setMat4("projection", projection);
+        mod->draw();
+    
+    }
 
     return ogl::errorCodeBuffer;
 
@@ -348,38 +361,33 @@ OGL_STATUS_CODE OGLEngine::render() {
 
 OGL_STATUS_CODE OGLEngine::generateBuffers() {
 
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
+    for (auto info : modelLoadingQueue) {
 
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices[0]) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
+        //std::thread* t0 = new std::thread([=]() {
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices[0]) * indices.size(), indices.data(), GL_STATIC_DRAW);
+                Shader shader;
+                if (info.second == ST_STANDARD) {
+                
+                    shader = *standardShader;
 
-    glVertexAttribPointer(
-        0, 
-        3,
-        GL_FLOAT,
-        GL_FALSE,
-        5 * sizeof(float), 
-        (void*)0
-        );
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(
-        1, 
-        2, 
-        GL_FLOAT,
-        GL_FALSE, 
-        5 * sizeof(float), 
-        (void*)(3 * sizeof(float))
-        );
-    glEnableVertexAttribArray(1);
+                }
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+                Model* model = new Model(info.first, shader);
+
+                std::scoped_lock< std::mutex > lock(modelsPushBackMutex);
+                models.push_back(model);;
+                logger::log(EVENT_LOG, "Successfully loaded model at " + std::string(info.first));
+
+            //});
+        //modelLoadingQueueThreads.push_back(t0);
+
+    }
+
+    /*for (auto thread : modelLoadingQueueThreads) {
+
+        thread->join();
+
+    }*/
 
     return ogl::errorCodeBuffer;
 
@@ -388,6 +396,7 @@ OGL_STATUS_CODE OGLEngine::generateBuffers() {
 OGL_STATUS_CODE OGLEngine::generateShaders() {
 
     standardShader = new Shader("shaders/standard/shader.vert", "shaders/standard/shader.frag");
+    logger::log(EVENT_LOG, "Successfully loaded shaders");
 
     return ogl::errorCodeBuffer;
 
@@ -395,51 +404,7 @@ OGL_STATUS_CODE OGLEngine::generateShaders() {
 
 OGL_STATUS_CODE OGLEngine::initializeViewport() {
 
-    glViewport(0, 0, ogl::WIDTH, ogl::HEIGHT);
-
-    return ogl::errorCodeBuffer;
-
-}
-
-OGL_STATUS_CODE OGLEngine::generateTextures() {
-
-    int32_t w, h, c;
-    stbi_set_flip_vertically_on_load(true);
-
-    auto texture = stbi_load(
-        "res/textures/application/minimalist-lion-wallpaper.jpg",
-        &w, 
-        &h, 
-        &c, 
-        0
-        );
-
-    if (!texture) {
-    
-        logger::log(ERROR_LOG, "Failed to load texture image");
-
-    }
-
-    glGenTextures(1, &tex);
-    glBindTexture(GL_TEXTURE_2D, tex);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(
-        GL_TEXTURE_2D, 
-        0, 
-        GL_RGB, 
-        w, 
-        h, 
-        0, 
-        GL_RGB, 
-        GL_UNSIGNED_BYTE, 
-        texture
-        );
-    glGenerateMipmap(GL_TEXTURE_2D);
-
-    stbi_image_free(texture);
+    glViewport(0, 0, width, height);
 
     return ogl::errorCodeBuffer;
 
@@ -448,6 +413,15 @@ OGL_STATUS_CODE OGLEngine::generateTextures() {
 OGL_STATUS_CODE OGLEngine::createCamera() {
 
     camera = new FPSCamera();
+    logger::log(EVENT_LOG, "Successfully created camera");
+
+    return ogl::errorCodeBuffer;
+
+}
+
+OGL_STATUS_CODE OGLEngine::push(const char* path_, SHADER_TYPE shader_) {
+
+    modelLoadingQueue.push_back(std::make_pair(path_, shader_));
 
     return ogl::errorCodeBuffer;
 

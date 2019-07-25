@@ -13,10 +13,10 @@ in vec2 outTex;
 
 out vec4 FragColor;
 
-uniform sampler2D inTexture;
+uniform sampler2D texDiffuse1;
 
 void main() {
 
-    FragColor = texture(inTexture, outTex);
+    FragColor = vec4(outTex, 0.0, 1.0);
 
 }

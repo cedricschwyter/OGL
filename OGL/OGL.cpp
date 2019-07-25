@@ -27,10 +27,11 @@ namespace ogl {
     const double                SENS                            = 0.1;
     const double                FOV                             = 45.0;
 
+    std::mutex                  bufferGenerationMutex;
+
     OGL_STATUS_CODE init() {
     
         engine = new OGLEngine();
-        ASSERT(engine->initLogger(), "Logger initialization error", LOGGER_SC_UNKNOWN_ERROR);
         
         return OGL_SC_SUCCESS;
     
@@ -102,6 +103,14 @@ namespace ogl {
 
         return buffer;
 
+    }
+
+    OGL_STATUS_CODE push(const char* path_, SHADER_TYPE shader_) {
+
+        engine->push(path_, shader_);
+
+        return errorCodeBuffer;
+    
     }
 
 }
