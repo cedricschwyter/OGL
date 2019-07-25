@@ -34,11 +34,11 @@ namespace ogl {
 
 struct BaseVertex {
 
-    glm::vec3 pos;
-    glm::vec3 nor;
-    glm::vec2 tex;
-    glm::vec3 tan;
-    glm::vec3 bit;
+    alignas(16) glm::vec3 pos;
+    alignas(16) glm::vec3 nor;
+    alignas(16) glm::vec2 tex;
+    alignas(16) glm::vec3 tan;
+    alignas(16) glm::vec3 bit;
 
     /**
         Overload comparison-operator

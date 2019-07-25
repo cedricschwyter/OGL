@@ -15,6 +15,7 @@
 Mesh::Mesh(std::vector< BaseVertex >& vertices_, std::vector< uint32_t >& indices_, std::vector< TextureObject >& textures_, Shader shader_) 
     : vertices(vertices_), indices(indices_), textures(textures_), shader(shader_) {
 
+    std::scoped_lock< std::mutex > lock(ogl::bufferGenerationMutex);
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
@@ -88,7 +89,7 @@ void Mesh::draw() {
 
         }
 
-        glUniform1i(glGetUniformLocation(shader.ID, (name + number).c_str()), i);
+        shader.setInt((name + number).c_str(), i);
         glBindTexture(GL_TEXTURE_2D, textures[i].ID);
 
     }

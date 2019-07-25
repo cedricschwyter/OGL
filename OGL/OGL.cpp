@@ -27,6 +27,8 @@ namespace ogl {
     const double                SENS                            = 0.1;
     const double                FOV                             = 45.0;
 
+    std::mutex                  bufferGenerationMutex;
+
     OGL_STATUS_CODE init() {
     
         engine = new OGLEngine();

@@ -34,6 +34,7 @@ namespace ogl {
     extern const double                         SPEED;
     extern const double                         SENS;
     extern const double                         FOV;
+    extern std::mutex                           bufferGenerationMutex;
 
     /**
         Initializes the OGLEngine object

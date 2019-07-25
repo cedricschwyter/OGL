@@ -16,7 +16,7 @@ int main() {
 
     ogl::init();
 
-    ogl::push("res/models/Mountain_Bike/OBJ/Mountain_Bike.obj", ST_STANDARD);
+    ogl::push("res/models/nanosuit/nanosuit.obj", ST_STANDARD);
 
 	return ogl::run();
 

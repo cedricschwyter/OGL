@@ -119,6 +119,7 @@ OGL_STATUS_CODE OGLEngine::initWindow() {
 #endif
 
     glfwMakeContextCurrent(window);
+    glfwSwapInterval(0);
 
     GLFWimage windowIcon[1];
     windowIcon[0].pixels = stbi_load(
@@ -338,12 +339,11 @@ OGL_STATUS_CODE OGLEngine::render() {
 
     glm::mat4 model = glm::mat4(1.0f); 
     model = glm::scale(model, glm::vec3(0.02f));
-    model = glm::translate(model, glm::vec3(0.0f, -10.0f, 0.0f));
 
     glm::mat4 view = camera->getViewMatrix();
 
     glm::mat4 projection;
-    projection = glm::perspective(static_cast< float >(glm::radians(camera->fov)), static_cast< float >(width / height), 0.1f, 100.0f);
+    projection = glm::perspective(static_cast< float >(glm::radians(camera->fov)), width / static_cast< float >(height), 0.1f, 100.0f);
     
     for (auto mod : models) {
     
@@ -378,16 +378,16 @@ OGL_STATUS_CODE OGLEngine::generateBuffers() {
                 models.push_back(model);;
                 logger::log(EVENT_LOG, "Successfully loaded model at " + std::string(info.first));
 
-          //  });
+            //});
         //modelLoadingQueueThreads.push_back(t0);
 
     }
 
-    for (auto thread : modelLoadingQueueThreads) {
+    /*for (auto thread : modelLoadingQueueThreads) {
 
         thread->join();
 
-    }
+    }*/
 
     return ogl::errorCodeBuffer;
 
@@ -404,7 +404,6 @@ OGL_STATUS_CODE OGLEngine::generateShaders() {
 
 OGL_STATUS_CODE OGLEngine::initializeViewport() {
 
-    glfwGetFramebufferSize(window, &OGLEngine::width, &OGLEngine::height);
     glViewport(0, 0, width, height);
 
     return ogl::errorCodeBuffer;
