@@ -206,7 +206,7 @@ std::vector< TextureObject > Model::loadASSIMPMaterialTextures(aiMaterial* mater
 
 }
 
-uint32_t Model::textureFromFile(const char *path_, const std::string& directory_, bool gamma_) {
+uint32_t Model::textureFromFile(const char* path_, const std::string& directory_, bool gamma_) {
 
     std::string path = std::string(directory + '/' + path_);
 
