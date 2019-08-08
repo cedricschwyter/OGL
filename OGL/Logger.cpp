@@ -7,7 +7,6 @@
     @file         Logger.cpp
     @brief        Implementation of the Logger namespace
 */
-#pragma once
 #include <fstream>
 #include <time.h>
 #include <iostream>

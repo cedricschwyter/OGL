@@ -7,7 +7,8 @@
     @file         BaseCamera.hpp
     @brief        Definition of the BaseCamera class
 */
-#pragma once
+#ifndef BASE_CAMERA_HPP
+#define BASE_CAMERA_HPP
 #include "Version.hpp"
 
 #include <glad/glad.h>
@@ -121,4 +122,4 @@ public:
     ~BaseCamera(void);
 
 };
-
+#endif  // BASE_CAMERA_HPP

@@ -7,7 +7,8 @@
     @file         Model.hpp
     @brief        Declaration of the Model class
 */
-#pragma once
+#ifndef MODEL_HPP
+#define MODEL_HPP
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -94,4 +95,4 @@ private:
     uint32_t textureFromFile(const char* path_, const std::string& directory_, bool gamma_ = false);
 
 };
-
+#endif  // MODEL_HPP

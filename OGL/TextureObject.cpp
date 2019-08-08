@@ -7,11 +7,15 @@
     @file         TextureObject.cpp
     @brief        Definition of the TextureObject struct
 */
-#pragma once
+#ifndef TEXTURE_OBJECT_CPP
+#define TEXTURE_OBJECT_CPP
 #include <string>
 
 #include "TEXTURE_TYPE.cpp"
 
+/**
+ * Holds information about a texture
+ */
 struct TextureObject {
 
     uint32_t            ID;
@@ -19,3 +23,4 @@ struct TextureObject {
     std::string         path;
 
 };
+#endif  // TEXTURE_OBJECT_CPP

@@ -7,7 +7,8 @@
     @file		Shader.hpp
     @brief		Definition of the Shader class
 */
-#pragma once
+#ifndef SHADER_HPP
+#define SHADER_HPP
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -86,4 +87,4 @@ public:
     ~Shader(void);
 
 };
-
+#endif  // SHADER_HPP

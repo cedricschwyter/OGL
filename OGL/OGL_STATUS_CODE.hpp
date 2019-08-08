@@ -7,8 +7,12 @@
 	@file		OGL_STATUS_CODE.hpp
 	@brief		Implementation of the OGL_STATUS_CODE enumeration
 */
-#pragma once
+#ifndef OGL_STATUS_CODE_HPP
+#define OGL_STATUS_CODE_HPP
 
+/**
+ * Status code enumeration for easier exception backtracing
+ */
 typedef enum OGL_STATUS_CODE {
 
     OGL_SC_MODEL_LOADING_ERROR_ASSIMP               = -13,
@@ -28,3 +32,4 @@ typedef enum OGL_STATUS_CODE {
     OGL_SC_ERROR_CODE_BUFFER_NOT_INITIALIZED        = OGL_SC_SUCCESS
 
 } OGL_STATUS_CODE;
+#endif  // OGL_STATUS_CODE_HPP

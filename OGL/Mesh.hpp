@@ -7,7 +7,8 @@
     @file         Mesh.hpp
     @brief        Declaration of the Mesh class
 */
-#pragma once
+#ifndef MESH_HPP
+#define MESH_HPP
 #include <vector>
 
 #include "TextureObject.cpp"
@@ -49,4 +50,4 @@ private:
     uint32_t VBO, EBO;
 
 };
-
+#endif  // MESH_HPP

@@ -8,7 +8,8 @@
 	@brief		Declaration of the OGLEngine class
 */
 
-#pragma once
+#ifndef OGL_ENGINE_HPP
+#define OGL_ENGINE_HPP
 #include "Version.hpp"
 
 #include <glad/glad.h>
@@ -262,4 +263,4 @@ private:
     OGL_STATUS_CODE createCamera(void);
 
 };
-
+#endif  // OGL_ENGINE_HPP

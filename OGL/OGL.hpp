@@ -7,7 +7,8 @@
     @file         OGL.hpp
     @brief        Prototype of the ogl namespace
 */
-#pragma once
+#ifndef OGL_HPP
+#define OGL_HPP
 #include "Version.hpp"
 
 #include <glad/glad.h>
@@ -89,3 +90,4 @@ namespace ogl {
     OGL_STATUS_CODE push(const char* path_, SHADER_TYPE shader_);
 
 }
+#endif  // OGL_HPP
