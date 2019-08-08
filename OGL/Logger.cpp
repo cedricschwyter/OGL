@@ -8,7 +8,6 @@
     @brief        Implementation of the Logger namespace
 */
 #pragma once
-#include <direct.h>
 #include <fstream>
 #include <time.h>
 #include <iostream>
@@ -16,6 +15,7 @@
 
 #include "Logger.hpp"
 #if defined WIN_64 || defined WIN_32
+    #include <direct.h>
     #include "ConsoleColor.hpp"
 #endif
 
@@ -30,24 +30,24 @@ namespace logger {
     std::mutex                streamBusy;
 
     LOGGER_STATUS_CODE init() {
-
+#ifndef OGL_NO_LOG
+#if defined WIN_64 || defined WIN_32
         if (_mkdir(LOG_DIR) >= 0) return LOGGER_SC_DIRECTORY_CREATION_ERROR;
+#endif
         std::ofstream error;
         std::ofstream start;
         std::ofstream event;
         error.open(ERROR_LOG_PATH, std::ios::trunc);
-        error.close();
         start.open(START_LOG_PATH, std::ios::app);
-        start.close();
         event.open(EVENT_LOG_PATH, std::ios::trunc);
         logger::log(EVENT_LOG, "Successfully initialized Logger");
-
+#endif
         return LOGGER_SC_SUCCESS;
 
     }
 
     LOGGER_STATUS_CODE log(LOG_TYPE log_, const char* msg_) {
-
+#ifndef OGL_NO_LOG
         streamBusy.lock();
         static int countEvent = 0;
         static int countError = 0;
@@ -73,10 +73,9 @@ namespace logger {
         case ERROR_LOG:
             if (countError == 0) {
 
-                stream.open(ERROR_LOG_PATH, std::ios::trunc);
                 countError++;
 
-                stream << Day << ":"
+                error << Day << ":"
                     << Month << ":"
                     << Year << "   "
                     << Hour << ":"
@@ -86,7 +85,6 @@ namespace logger {
                     << "CRITICAL: "
                     << msg_ << std::endl;
 
-                stream.close();
 #if (defined OGL_DEVELOPMENT || defined OGL_RELEASE_CONSOLE) && (defined WIN_64 || WIN_32)
                 std::cerr << green << Day << white << ":"
                     << green << Month << white << ":"
@@ -111,9 +109,7 @@ namespace logger {
             }
             else {
 
-                stream.open(ERROR_LOG_PATH, std::ios::app);
-
-                stream << Day << ":"
+                error << Day << ":"
                     << Month << ":"
                     << Year << "   "
                     << Hour << ":"
@@ -123,7 +119,6 @@ namespace logger {
                     << "CRITICAL: "
                     << msg_ << std::endl;
 
-                stream.close();
 #if (defined OGL_DEVELOPMENT || defined OGL_RELEASE_CONSOLE) && (defined WIN_64 || WIN_32)
                 std::cerr << green << Day << white << ":"
                     << green << Month << white << ":"
@@ -148,9 +143,8 @@ namespace logger {
             }
 
         case START_LOG:
-            stream.open(START_LOG_PATH, std::ios::app);
 
-            stream << Day << ":"
+            start << Day << ":"
                 << Month << ":"
                 << Year << "   "
                 << Hour << ":"
@@ -159,15 +153,12 @@ namespace logger {
                 << thisThread << "        ===        "
                 << msg_ << std::endl;
 
-            stream.close();
-
         case EVENT_LOG:
             if (countEvent == 0) {
 
-                stream.open(EVENT_LOG_PATH, std::ios::trunc);
                 countEvent++;
 
-                stream << Day << ":"
+                event << Day << ":"
                     << Month << ":"
                     << Year << "   "
                     << Hour << ":"
@@ -176,7 +167,6 @@ namespace logger {
                     << thisThread << "        ===        "
                     << msg_ << std::endl;
 
-                stream.close();
 #if (defined OGL_DEVELOPMENT || defined OGL_RELEASE_CONSOLE) && (defined WIN_64 || WIN_32)
                 std::cout << green << Day << white << ":"
                     << green << Month << white << ":"
@@ -199,9 +189,7 @@ namespace logger {
             }
             else {
 
-                stream.open(EVENT_LOG_PATH, std::ios::app);
-
-                stream << Day << ":"
+                event << Day << ":"
                     << Month << ":"
                     << Year << "   "
                     << Hour << ":"
@@ -210,7 +198,6 @@ namespace logger {
                     << thisThread << "        ===        "
                     << msg_ << std::endl;
 
-                stream.close();
 #if (defined OGL_DEVELOPMENT || defined OGL_RELEASE_CONSOLE) && (defined WIN_64 || WIN_32)
                 std::cout << green << Day << white << ":"
                     << green << Month << white << ":"
@@ -231,15 +218,16 @@ namespace logger {
                     << msg_ << std::endl;
 #endif
             }
+
             break;
 
         default:
             break;
 
         }
-
+#endif
         if (log_ == ERROR_LOG) {
-#ifdef OGL_DEVELOPMENT
+#if defined OGL_DEVELOPMENT && (defined WIN_64 || defined WIN_32)
             __debugbreak();
 #else
             throw std::runtime_error(msg_);

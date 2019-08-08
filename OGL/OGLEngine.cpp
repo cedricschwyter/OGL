@@ -202,7 +202,7 @@ OGL_STATUS_CODE OGLEngine::loop() {
 
         if (currentTime - lastTime >= seconds) {
 
-            std::string fps = "Average FPS (last " + std::to_string(seconds) + " seconds):    %f\t";
+            /*std::string fps = "Average FPS (last " + std::to_string(seconds) + " seconds):    %f\t";
             std::string frametime = "Average Frametime (last " + std::to_string(seconds) + " seconds):    %f ms\t";
             std::string maxFPS = "Max FPS:    %f\n";
 
@@ -210,7 +210,7 @@ OGL_STATUS_CODE OGLEngine::loop() {
             printf(frametime.c_str(), double((1000.0 * seconds) / nbFrames));
             printf(maxFPS.c_str(), double(maxfps / seconds));
             nbFrames = 0;
-            lastTime += seconds;
+            lastTime += seconds;*/
 
         }
 

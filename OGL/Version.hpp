@@ -12,17 +12,18 @@
 
 // Edit configuration here
 //#define OGL_DEVELOPMENT      // enable this for verbose output
-//#define OGL_RELEASE          // enable this for performance
+#define OGL_RELEASE          // enable this for performance
 //#define OGL_RELEASE_CONSOLE    // enbable this for performance with console
+#define OGL_NO_LOG             // enable this for full performance
 
 #define OGL_WINDOW_MODE_WINDOWED
 //#define OGL_WINDOW_MODE_FULLSCREEN
 //#define OGL_WINDOW_MODE_BORDERLESS
 
-#define WIN_64                // Windows 64-bit
+//#define WIN_64                // Windows 64-bit
 //#define WIN_32              // Windows 32-bit
 //#define MACOSX              // macOS X 64-bit
-//#define LINUX               // Linux 64-bit
+#define LINUX               // Linux 64-bit
 
 //#define OGL_STANDARD_MODEL_LOADING_LIB VKEngineModelLoadingLibTINYOBJ
 #define OGL_STANDARD_MODEL_LOADING_LIB VKEngineModelLoadingLibASSIMP

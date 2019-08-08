@@ -8,6 +8,7 @@
     @brief        Prototype of the Logger namespace
 */
 #pragma once
+#include <thread>
 #include <mutex>
 
 #include "Version.hpp"
