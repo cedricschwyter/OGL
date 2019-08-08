@@ -69,7 +69,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)\bin\Windows\$(Platform)\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -108,13 +110,13 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\OGL\ext\glad\src;$(SolutionDir)\OGL\ext\glad\include;$(SolutionDir)\OGL\ext\assimp-x64\include;$(SolutionDir)\OGL\ext\stbimage;$(SolutionDir)\OGL\ext\SDL\include;$(SolutionDir)\OGL\ext\glm;$(SolutionDir)\OGL\ext\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\ext\glad\src;$(SolutionDir)\ext\glad\include;$(SolutionDir)\ext\assimp-x64\include;$(SolutionDir)\ext\stbimage;$(SolutionDir)\ext\SDL\include;$(SolutionDir)\ext\glm;$(SolutionDir)\ext\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)\OGL\ext\assimp-x64\lib;$(SolutionDir)\OGL\ext\SDL\lib\x64;$(SolutionDir)\OGL\ext\glfw\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\ext\assimp-x64\lib;$(SolutionDir)\ext\SDL\lib\x64;$(SolutionDir)\ext\glfw\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>assimp-vc142-mt.lib;SDL2_image.lib;SDL2.lib;SDL2main.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -123,7 +125,7 @@
     <ClCompile Include="BaseCamera.cpp" />
     <ClCompile Include="BaseVertex.hpp" />
     <ClCompile Include="CenterCamera.cpp" />
-    <ClCompile Include="ext\glad\src\glad.c" />
+    <ClCompile Include="../ext\glad\src\glad.c" />
     <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="Logger.cpp" />
