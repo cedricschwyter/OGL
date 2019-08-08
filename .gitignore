@@ -259,6 +259,11 @@ paket-files/
 __pycache__/
 *.pyc
 
+# Visual studio files
+*.pdb
+*.ipdb
+*.iobj
+
 # Library documentations
 ext/glfw/docs
 ext/glm/doc
