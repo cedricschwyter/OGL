@@ -25,6 +25,9 @@ namespace logger {
     const std::string        ERROR_LOG_PATH = "logs/error.log";
     const std::string        START_LOG_PATH = "logs/start.log";
     const std::string        EVENT_LOG_PATH = "logs/event.log";
+    std::ofstream            error;
+    std::ofstream            start;
+    std::ofstream            event;
 
     std::mutex                streamBusy;
 
@@ -33,9 +36,6 @@ namespace logger {
 #if defined WIN_64 || defined WIN_32
         if (_mkdir(LOG_DIR) >= 0) return LOGGER_SC_DIRECTORY_CREATION_ERROR;
 #endif
-        std::ofstream error;
-        std::ofstream start;
-        std::ofstream event;
         error.open(ERROR_LOG_PATH, std::ios::trunc);
         start.open(START_LOG_PATH, std::ios::app);
         event.open(EVENT_LOG_PATH, std::ios::trunc);
@@ -56,7 +56,7 @@ namespace logger {
         struct tm local_time;
 
         time(&current_time);
-        localtime_s(&local_time, &current_time);
+        localtime_r(&current_time, &local_time);
 
         int Year        = local_time.tm_year + 1900;
         int Month       = local_time.tm_mon + 1;

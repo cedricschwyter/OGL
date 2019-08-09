@@ -13,9 +13,9 @@
 
 // Edit configuration here
 //#define OGL_DEVELOPMENT      // enable this for verbose output
-#define OGL_RELEASE          // enable this for performance
+//#define OGL_RELEASE          // enable this for performance
 //#define OGL_RELEASE_CONSOLE    // enbable this for performance with console
-#define OGL_NO_LOG             // enable this for full performance
+//#define OGL_NO_LOG             // enable this for full performance
 
 #define OGL_WINDOW_MODE_WINDOWED
 //#define OGL_WINDOW_MODE_FULLSCREEN
@@ -29,7 +29,7 @@
 //#define OGL_STANDARD_MODEL_LOADING_LIB VKEngineModelLoadingLibTINYOBJ
 #define OGL_STANDARD_MODEL_LOADING_LIB VKEngineModelLoadingLibASSIMP
 
-#define OGL_MULTISAMPLING_NONE
+//#define OGL_MULTISAMPLING_NONE
 //#define OGL_MULTISAMPLING_x2
 //#define OGL_MULTISAMPLING_x4
 //#define OGL_MULTISAMPLING_x8
@@ -38,7 +38,12 @@
 //#define OGL_MULTISAMPLING_x64
 
 // Default values
-#if !defined OGL_DEVELOPMENT && !defined OGL_RELEASE && !defined OGL_RELEASE_CONSOLE
+
+#ifdef OGL_NO_LOG
+    #define OGL_RELEASE
+#endif
+
+#if !defined OGL_DEVELOPMENT && !defined OGL_RELEASE && !defined OGL_RELEASE_CONSOLE && !defined OGL_NO_LOG
     #define OGL_DEVELOPMENT
 #endif
 

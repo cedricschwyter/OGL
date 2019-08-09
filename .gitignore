@@ -258,6 +258,9 @@ paket-files/
 __pycache__/
 *.pyc
 
+# Visual studio code files
+.vscode/
+
 # Visual studio files
 *.pdb
 *.ipdb
