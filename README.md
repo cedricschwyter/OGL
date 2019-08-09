@@ -2,7 +2,7 @@
 # OGL
 ## OpenGL part of my Vulkan vs. OpenGL comparison
 
-This project features the second part of my matura thesis which is about comparing the Vulkan API and OpenGL with one another. This repository contains the source code for the OpenGL application.
+This project features the second part of my matura thesis which is about comparing the Vulkan API and OpenGL with one another. This repository contains the source code for the OpenGL application. The first part can be found here: [https://github.com/D3PSI/VK](https://github.com/D3PSI/VK)
 
 The project itself has been written in C++17 and the OpenGL Core Version 4.6.
 
