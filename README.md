@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/D3PSI/OGL.svg?branch=master)](https://travis-ci.com/D3PSI/OGL)
 # OGL
 ## OpenGL part of my Vulkan vs. OpenGL comparison
 
