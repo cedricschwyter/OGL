@@ -15,7 +15,7 @@
 //#define OGL_DEVELOPMENT      // enable this for verbose output
 //#define OGL_RELEASE          // enable this for performance
 //#define OGL_RELEASE_CONSOLE    // enbable this for performance with console
-//#define OGL_NO_LOG             // enable this for full performance
+#define OGL_NO_LOG             // enable this for full performance
 
 #define OGL_WINDOW_MODE_WINDOWED
 //#define OGL_WINDOW_MODE_FULLSCREEN
