@@ -1,0 +1,43 @@
+language: cpp
+os: linux
+dist: trusty
+sudo: required
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-7
+      - gcc-7
+      
+compiler: gcc
+
+before_script:
+  - sudo add-apt-repository ppa:george-edison55/cmake-3.x -y
+  - sudo apt-get -qq update
+  - sudo apt-get install pkg-config cmake make --allow-unauthenticated -y libassimp-dev libglm-dev libegl1-mesa-dev libsdl2-dev libsdl2-image-dev libjpeg-dev libwebp-dev libtiff5-dev
+  - sudo apt-get --only-upgrade --allow-unauthenticated install cmake
+  - export CC=gcc-7
+  - export CXX=g++-7
+  - sudo git clone https://github.com/g-truc/glm.git
+  - cd glm/
+  - sudo cmake CMakeLists.txt
+  - sudo make
+  - sudo make install
+  - cd ..
+  - sudo git clone https://github.com/glfw/glfw.git
+  - cd glfw/
+  - sudo cmake .
+  - sudo make
+  - sudo make install
+  - cd ..
+
+script: 
+  - make
+  
+notifications:
+  email:
+    recipients:
+      - d3psigames@gmail.com
+    on_success: always
+    on_failure: always
