@@ -108,7 +108,7 @@ OGL_STATUS_CODE OGLEngine::initWindow() {
         mode->height / 2 - ogl::HEIGHT / 2
     );
 #endif
-#if defined OGL_WINDOW_MODE_BORDERLESS || defined OGL_WINDOW_MODE_UNDEFINED
+#if defined OGL_WINDOW_MODE_BORDERLESS
     window = glfwCreateWindow(
         mode->width,
         mode->height,

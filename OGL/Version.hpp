@@ -12,10 +12,10 @@
 #include "Makros.hpp"
 
 // Edit configuration here
-//#define OGL_DEVELOPMENT      // enable this for verbose output
+#define OGL_DEVELOPMENT      // enable this for verbose output
 //#define OGL_RELEASE          // enable this for performance
 //#define OGL_RELEASE_CONSOLE    // enbable this for performance with console
-#define OGL_NO_LOG             // enable this for full performance
+//#define OGL_NO_LOG             // enable this for full performance
 
 #define OGL_WINDOW_MODE_WINDOWED
 //#define OGL_WINDOW_MODE_FULLSCREEN
@@ -48,7 +48,7 @@
 #endif
 
 #if !defined OGL_WINDOW_MODE_WINDOWED && !defined OGL_WINDOW_MODE_FULLSCREEN && !defined OGL_WINDOW_MODE_BORDERLESS
-    #define OGL_WINDOW_MODE_UNDEFINED
+    #define OGL_WINDOW_MODE_BORDERLESS
 #endif
 
 #if !defined WIN_64 && !defined WIN_32 && !defined MACOSX && !defined LINUX
