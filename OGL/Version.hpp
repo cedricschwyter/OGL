@@ -51,6 +51,10 @@
     #define OGL_WINDOW_MODE_BORDERLESS
 #endif
 
+#if !defined OGL_MULTISAMPLING_NONE && !defined OGL_MULTISAMPLING_x2 && !defined OGL_MULTISAMPLING_x4 && !defined OGL_MULTISAMPLING_x8 && !defined OGL_MULTISAMPLING_x16 && !defined OGL_MULTISAMPLING_x32 && !defined OGL_MULTISAMPLING_x64
+    #define OGL_MULTISAMPLING_NONE
+#endif
+
 #if !defined WIN_64 && !defined WIN_32 && !defined MACOSX && !defined LINUX
     #define WIN_64
 #endif

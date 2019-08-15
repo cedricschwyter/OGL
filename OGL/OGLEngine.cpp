@@ -61,11 +61,30 @@ LOGGER_STATUS_CODE OGLEngine::initLogger() {
 OGL_STATUS_CODE OGLEngine::initGLFW() {
 
     logger::log(EVENT_LOG, "Initializing window...");
+#ifdef OGL_MULTISAMPLING_NONE
+    MSAASampleCount = 1;
+#elif defined OGL_MULTISAMPLING_x2
+    MSAASampleCount = 2;
+#elif defined OGL_MULTISAMPLING_x4
+    MSAASampleCount = 4;
+#elif defined OGL_MULTISAMPLING_x8
+    MSAASampleCount = 8;
+#elif defined OGL_MULTISAMPLING_x16
+    MSAASampleCount = 16;
+#elif defined OGL_MULTISAMPLING_x32
+    MSAASampleCount = 32;
+#elif defined OGL_MULTISAMPLING_x64
+    MSAASampleCount = 64;
+#endif
+
     glfwInit();
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifndef OGL_MULTISAMPLING_NONE
+    glfwWindowHint(GLFW_SAMPLES, MSAASampleCount);
+#endif
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
     glfwWindowHint(GLFW_FOCUSED, GLFW_TRUE);
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
@@ -326,8 +345,12 @@ OGL_STATUS_CODE OGLEngine::processKeyboardInput() {
 OGL_STATUS_CODE OGLEngine::setup() {
 
     glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_FALSE);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
+#ifndef OGL_MULTISAMPLING_NONE
+    glEnable(GL_MULTISAMPLE);
+#endif
 
     return ogl::errorCodeBuffer;
 

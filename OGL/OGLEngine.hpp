@@ -39,7 +39,8 @@
 class OGLEngine {
 public:
 
-    Shader* standardShader;
+    Shader*             standardShader;
+    uint32_t            MSAASampleCount;
 
     /**
         Default constructor
@@ -86,61 +87,6 @@ private:
     static int                                              height;
     LoadingScreen*                                          loadingScreen               = nullptr;
     bool                                                    initialized                 = false;
-    std::vector< float >                                    vertices                    = {
-    
-        -1.0f, -1.0f, -1.0f,  0.0f, 0.0f,
-         1.0f, -1.0f, -1.0f,  1.0f, 0.0f,
-         1.0f,  1.0f, -1.0f,  1.0f, 1.0f,
-         1.0f,  1.0f, -1.0f,  1.0f, 1.0f,
-        -1.0f,  1.0f, -1.0f,  0.0f, 1.0f,
-        -1.0f, -1.0f, -1.0f,  0.0f, 0.0f,
-
-        -1.0f, -1.0f,  1.0f,  0.0f, 0.0f,
-         1.0f, -1.0f,  1.0f,  1.0f, 0.0f,
-         1.0f,  1.0f,  1.0f,  1.0f, 1.0f,
-         1.0f,  1.0f,  1.0f,  1.0f, 1.0f,
-        -1.0f,  1.0f,  1.0f,  0.0f, 1.0f,
-        -1.0f, -1.0f,  1.0f,  0.0f, 0.0f,
-
-        -1.0f,  1.0f,  1.0f,  1.0f, 0.0f,
-        -1.0f,  1.0f, -1.0f,  1.0f, 1.0f,
-        -1.0f, -1.0f, -1.0f,  0.0f, 1.0f,
-        -1.0f, -1.0f, -1.0f,  0.0f, 1.0f,
-        -1.0f, -1.0f,  1.0f,  0.0f, 0.0f,
-        -1.0f,  1.0f,  1.0f,  1.0f, 0.0f,
-
-         1.0f,  1.0f,  1.0f,  1.0f, 0.0f,
-         1.0f,  1.0f, -1.0f,  1.0f, 1.0f,
-         1.0f, -1.0f, -1.0f,  0.0f, 1.0f,
-         1.0f, -1.0f, -1.0f,  0.0f, 1.0f,
-         1.0f, -1.0f,  1.0f,  0.0f, 0.0f,
-         1.0f,  1.0f,  1.0f,  1.0f, 0.0f,
-
-        -1.0f, -1.0f, -1.0f,  0.0f, 1.0f,
-         1.0f, -1.0f, -1.0f,  1.0f, 1.0f,
-         1.0f, -1.0f,  1.0f,  1.0f, 0.0f,
-         1.0f, -1.0f,  1.0f,  1.0f, 0.0f,
-        -1.0f, -1.0f,  1.0f,  0.0f, 0.0f,
-        -1.0f, -1.0f, -1.0f,  0.0f, 1.0f,
-
-        -1.0f,  1.0f, -1.0f,  0.0f, 1.0f,
-         1.0f,  1.0f, -1.0f,  1.0f, 1.0f,
-         1.0f,  1.0f,  1.0f,  1.0f, 0.0f,
-         1.0f,  1.0f,  1.0f,  1.0f, 0.0f,
-        -1.0f,  1.0f,  1.0f,  0.0f, 0.0f,
-        -1.0f,  1.0f, -1.0f,  0.0f, 1.0f
-    
-    };
-    std::vector< uint32_t >                                 indices                     = { 
-        
-        0, 1, 3, 
-        1, 2, 3
-    
-    };
-    uint32_t                                                VAO;
-    uint32_t                                                VBO;
-    uint32_t                                                EBO;
-    uint32_t                                                tex;
     BaseCamera*                                             camera;
     std::vector< Model* >                                   models;
     std::mutex                                              modelsPushBackMutex;
