@@ -17,7 +17,7 @@
 //#define OGL_RELEASE_CONSOLE    // enbable this for performance with console
 //#define OGL_NO_LOG             // enable this for full performance
 
-#define OGL_WINDOW_MODE_WINDOWED
+//#define OGL_WINDOW_MODE_WINDOWED
 //#define OGL_WINDOW_MODE_FULLSCREEN
 //#define OGL_WINDOW_MODE_BORDERLESS
 
@@ -32,7 +32,7 @@
 //#define OGL_MULTISAMPLING_NONE
 //#define OGL_MULTISAMPLING_x2
 //#define OGL_MULTISAMPLING_x4
-//#define OGL_MULTISAMPLING_x8
+#define OGL_MULTISAMPLING_x8
 //#define OGL_MULTISAMPLING_x16
 //#define OGL_MULTISAMPLING_x32
 //#define OGL_MULTISAMPLING_x64

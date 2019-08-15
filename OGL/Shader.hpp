@@ -79,7 +79,23 @@ public:
         @param      name_       The name of the uniform
         @param      value_      The value to set
     */
-    void setMat4(const std::string& name, glm::mat4 value) const;
+    void setMat4(const std::string& name_, glm::mat4 value_) const;
+
+    /**
+        Sets a uniform of type vec3 in the shader
+
+        @param      name_       The name of the uniform
+        @param      value_      The value to set
+    */
+    void setVec3(const std::string& name_, glm::vec3 value_) const;
+
+    /**
+        Sets a uniform of type vec3 in the shader
+
+        @param      name_       The name of the uniform
+        @param      value_      The value to set
+    */
+    void setVec3(const std::string &name_, float x_, float y_, float z_) const;
 
     /**
         Default destructor

@@ -345,7 +345,6 @@ OGL_STATUS_CODE OGLEngine::processKeyboardInput() {
 OGL_STATUS_CODE OGLEngine::setup() {
 
     glEnable(GL_DEPTH_TEST);
-    glDepthMask(GL_FALSE);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
 #ifndef OGL_MULTISAMPLING_NONE
@@ -368,10 +367,15 @@ OGL_STATUS_CODE OGLEngine::render() {
 
     glm::mat4 projection;
     projection = glm::perspective(static_cast< float >(glm::radians(camera->fov)), width / static_cast< float >(height), 0.1f, 100.0f);
-    
+
+    glm::vec3 lightPos = glm::vec3(static_cast< float >(glm::cos(glfwGetTime())), 0.0f, static_cast< float >(glm::sin(glfwGetTime())));
+
     for (auto mod : models) {
     
         mod->shader.use();
+        mod->shader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+        mod->shader.setVec3("lightPos", lightPos);
+        mod->shader.setVec3("viewPos", camera->camPos);
         mod->shader.setMat4("model", model);
         mod->shader.setMat4("view", view);
         mod->shader.setMat4("projection", projection);
