@@ -16,6 +16,8 @@
 #if defined WIN_64 || defined WIN_32
     #include <direct.h>
     #include "ConsoleColor.hpp"
+#elif defined LINUX
+    #include <sys/stat.h>
 #endif
 
 namespace logger {
@@ -29,12 +31,24 @@ namespace logger {
     std::ofstream            start;
     std::ofstream            event;
 
-    std::mutex                streamBusy;
+    std::mutex               streamBusy;
 
     LOGGER_STATUS_CODE init() {
 #ifndef OGL_NO_LOG
 #if defined WIN_64 || defined WIN_32
         if (_mkdir(LOG_DIR) >= 0) return LOGGER_SC_DIRECTORY_CREATION_ERROR;
+#elif defined LINUX
+        struct stat st;
+        if(stat("/tmp",&st) != 0) {
+
+            if (mkdir(LOG_DIR, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0) {
+
+                logger::log(ERROR_LOG, "Failed to create log directory at " + std::string(LOG_DIR));
+                return LOGGER_SC_DIRECTORY_CREATION_ERROR;
+
+            }
+
+        }
 #endif
         error.open(ERROR_LOG_PATH, std::ios::trunc);
         start.open(START_LOG_PATH, std::ios::app);
