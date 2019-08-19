@@ -70,7 +70,11 @@ namespace logger {
         struct tm local_time;
 
         time(&current_time);
+#if defined WIN_64 || defined WIN_32
+        localtime_s(&local_time, &current_time);
+#elif defined LINUX
         localtime_r(&current_time, &local_time);
+#endif
 
         int Year        = local_time.tm_year + 1900;
         int Month       = local_time.tm_mon + 1;
