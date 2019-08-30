@@ -125,7 +125,7 @@ Mesh* Model::processASSIMPMesh(aiMesh* mesh_, const aiScene* scene_) {
             vertex.bit          = vector;
 
         }
-
+#ifdef OGL_VERTEX_DEDUPLICATION
         if (uniqueVertices.count(vertex) == 0) {
 
             uniqueVertices[vertex] = static_cast< uint32_t >(vertices.size());
@@ -135,9 +135,19 @@ Mesh* Model::processASSIMPMesh(aiMesh* mesh_, const aiScene* scene_) {
         }
 
         indices.push_back(uniqueVertices[vertex]);
-    
+#elif !defined OGL_VERTEX_DEDUPLICATION
+        vertices.push_back(vertex);
+#endif
     }
+#ifndef OGL_VERTEX_DEDUPLICATION
+    for (unsigned int i = 0; i < mesh_->mNumFaces; i++) {
 
+        aiFace face = mesh_->mFaces[i];
+        for(unsigned int j = 0; j < face.mNumIndices; j++)
+            indices.push_back(face.mIndices[j]);
+        
+    }
+#endif
     std::vector< TextureObject > textures;
 
     aiMaterial* material = scene_->mMaterials[mesh_->mMaterialIndex];

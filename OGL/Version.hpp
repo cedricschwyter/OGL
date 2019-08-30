@@ -37,6 +37,8 @@
 //#define OGL_MULTISAMPLING_x32
 //#define OGL_MULTISAMPLING_x64
 
+//#define OGL_VERTEX_DEDUPLICATION       // Toggle Vertex Deduplication, may be buggy
+
 // Default values
 
 #ifdef OGL_NO_LOG
