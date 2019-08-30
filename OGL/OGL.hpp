@@ -13,7 +13,7 @@
 
 #include <glad/glad.h>
 
-#include "OGLEngine.hpp"
+#include "Core.hpp"
 #include "OGL_STATUS_CODE.hpp"
 
 /**
@@ -23,7 +23,6 @@ namespace ogl {
 
     extern OGL_STATUS_CODE                      errorCodeBuffer;
 
-    extern OGLEngine*                           engine;
     extern const unsigned int                   WIDTH;
     extern const unsigned int                   HEIGHT;
     extern const char*                          TITLE;

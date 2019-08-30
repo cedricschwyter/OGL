@@ -16,7 +16,6 @@ namespace ogl {
 
     OGL_STATUS_CODE             errorCodeBuffer                 = OGL_SC_ERROR_CODE_BUFFER_NOT_INITIALIZED;
 
-    OGLEngine*                  engine;
     const unsigned int          WIDTH                           = 1280;
     const unsigned int          HEIGHT                          = 720;
     const char*                 TITLE                           = "OGL by D3PSI";
@@ -31,7 +30,7 @@ namespace ogl {
 
     OGL_STATUS_CODE init() {
     
-        engine = new OGLEngine();
+        core::preInit();
         
         return OGL_SC_SUCCESS;
     
@@ -42,7 +41,7 @@ namespace ogl {
         try {
 
             OGL_STATUS_CODE* returnAddr = new OGL_STATUS_CODE();
-            std::thread t0(&OGLEngine::init, engine, returnAddr);
+            std::thread t0(&core::init, returnAddr);
             t0.join();
 
             OGL_STATUS_CODE retCode = *returnAddr;
@@ -107,7 +106,7 @@ namespace ogl {
 
     OGL_STATUS_CODE push(const char* path_, SHADER_TYPE shader_) {
 
-        engine->push(path_, shader_);
+        core::push(path_, shader_);
 
         return errorCodeBuffer;
     
