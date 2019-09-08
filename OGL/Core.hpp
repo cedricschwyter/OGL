@@ -35,6 +35,7 @@
 #include "BaseVertex.hpp"
 #include "Model.hpp"
 #include "SHADER_TYPE.cpp"
+#include "ModelInfo.cpp"
 
 namespace ogl {
 
@@ -51,7 +52,7 @@ namespace ogl {
         extern BaseCamera*                                             camera;
         extern std::vector< Model* >                                   models;
         extern std::mutex                                              modelsPushBackMutex;
-        extern std::vector< std::pair< const char*, SHADER_TYPE > >    modelLoadingQueue;
+        extern std::vector< ModelInfo >                                 modelLoadingQueue;
         extern std::vector< std::thread* >                             modelLoadingQueueThreads;
 
         /**
@@ -71,12 +72,13 @@ namespace ogl {
         /**
             Adds a model to the model loading queue
 
-            @param      path_       The path to the model
-            @param      shader_     The shader to render the model with
+            @param      path_           The path to the model
+            @param      shader_         The shader to render the model with
+            @param      modelMatrix_    The function to invoke that returns the model matrix
 
             @return     Returns OGL_SC_SUCCESS on success
         */
-        OGL_STATUS_CODE push(const char* path_, SHADER_TYPE shader_);
+        OGL_STATUS_CODE push(const char* path_, SHADER_TYPE shader_,  glm::mat4 (*modelMatrix_)());
 
         /**
             Initializes the logger

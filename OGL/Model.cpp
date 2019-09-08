@@ -14,7 +14,7 @@
 #include <stb_image.h>
 
 
-Model::Model(const char* path_, Shader shader_) : shader(shader_) {
+Model::Model(const char* path_, Shader shader_, glm::mat4 (*modelMatrixFunc_)()) : shader(shader_), modelMatrixFunc(modelMatrixFunc_) {
 
     OGL_STATUS_CODE result = loadOBJASSIMP(path_);
 
@@ -256,6 +256,11 @@ uint32_t Model::textureFromFile(const char* path_, const std::string& directory_
     
 }
 
+glm::mat4 Model::getModelMatrix() {
+
+    return (*modelMatrixFunc)();
+
+}
 
 Model::~Model() {
 

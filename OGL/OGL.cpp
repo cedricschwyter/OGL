@@ -104,9 +104,9 @@ namespace ogl {
 
     }
 
-    OGL_STATUS_CODE push(const char* path_, SHADER_TYPE shader_) {
+    OGL_STATUS_CODE push(const char* path_, SHADER_TYPE shader_, glm::mat4 (*modelMatrix_)()) {
 
-        core::push(path_, shader_);
+        core::push(path_, shader_, modelMatrix_);
 
         return errorCodeBuffer;
     

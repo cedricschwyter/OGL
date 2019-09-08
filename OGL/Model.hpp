@@ -25,10 +25,18 @@ public:
     /**
         Constructor
 
-        @param      path_           The path to the .obj-file$
-        @param      shader_         The shader to draw the model with
+        @param      path_                   The path to the .obj-file$
+        @param      shader_                 The shader to draw the model with
+        @param      modelMatrixFunc_        The function to invoke that returns the model matrix
     */
-    Model(const char* path_, Shader shader_);
+    Model(const char* path_, Shader shader_, glm::mat4 (*modelMatrixFunc_)());
+
+    /**
+        Returns the models model-matrix
+
+        @return     Returns the models model-matrix
+     */
+    glm::mat4 getModelMatrix(void); 
 
     /**
         Draws the model
@@ -44,6 +52,8 @@ private:
 
     std::string                                                 directory;
     std::vector< TextureObject >                                texturesLoaded;
+    glm::mat4                                                   (*modelMatrixFunc)();
+
 
     /**
         Handles and coordinates all loading actions for the specified file, using ASSIMP

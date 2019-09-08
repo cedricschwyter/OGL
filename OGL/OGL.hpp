@@ -81,12 +81,13 @@ namespace ogl {
     /**
         Adds a model to the model loading queue
 
-        @param      path_       The path to the model
-        @param      shader_     The shader to render the model with
+        @param      path_               The path to the model
+        @param      shader_             The shader to render the model with
+        @param      modelMatrix_        The function to invoke that returns the model matrix
 
         @return     Returns OGL_SC_SUCCESS on success
     */
-    OGL_STATUS_CODE push(const char* path_, SHADER_TYPE shader_);
+    OGL_STATUS_CODE push(const char* path_, SHADER_TYPE shader_, glm::mat4 (*modelMatrix_)());
 
 }
 #endif  // OGL_HPP

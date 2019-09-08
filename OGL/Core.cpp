@@ -11,6 +11,7 @@
 #include "Core.hpp"
 #include "OGL.hpp"
 #include "ASSERT.cpp"
+#include "ModelInfo.cpp"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
@@ -30,7 +31,7 @@ namespace ogl {
         BaseCamera*                                             camera;
         std::vector< Model* >                                   models;
         std::mutex                                              modelsPushBackMutex;
-        std::vector< std::pair< const char*, SHADER_TYPE > >    modelLoadingQueue;
+        std::vector< ModelInfo >                                modelLoadingQueue;
         std::vector< std::thread* >                             modelLoadingQueueThreads;
 
         void preInit() {
@@ -370,9 +371,6 @@ namespace ogl {
             glClearColor(122.0f / 255.0f, 122.0f / 255.0f, 122.0f / 255.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            glm::mat4 model = glm::mat4(1.0f); 
-            model = glm::scale(model, glm::vec3(0.02f));
-
             glm::mat4 view = camera->getViewMatrix();
 
             glm::mat4 projection;
@@ -382,6 +380,8 @@ namespace ogl {
 
             for (auto mod : models) {
             
+                glm::mat4 model = mod->getModelMatrix();
+
                 mod->shader.use();
                 mod->shader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
                 mod->shader.setVec3("lightPos", lightPos);
@@ -401,31 +401,20 @@ namespace ogl {
 
             for (auto info : modelLoadingQueue) {
 
-                //std::thread* t0 = new std::thread([=]() {
+                Shader* shader;
+                if (info.shader == ST_STANDARD) {
 
-                        Shader shader;
-                        if (info.second == ST_STANDARD) {
-                        
-                            shader = *standardShader;
+                    shader = standardShader;
 
-                        }
+                }
 
-                        Model* model = new Model(info.first, shader);
+                Model* model = new Model(info.path, *shader, info.modelMatrixFunc);
 
-                        std::scoped_lock< std::mutex > lock(modelsPushBackMutex);
-                        models.push_back(model);;
-                        logger::log(EVENT_LOG, "Successfully loaded model at " + std::string(info.first));
-
-                    //});
-                //modelLoadingQueueThreads.push_back(t0);
+                std::scoped_lock< std::mutex > lock(modelsPushBackMutex);
+                models.push_back(model);;
+                logger::log(EVENT_LOG, "Successfully loaded model at " + std::string(info.path));
 
             }
-
-            /*for (auto thread : modelLoadingQueueThreads) {
-
-                thread->join();
-
-            }*/
 
             return ogl::errorCodeBuffer;
 
@@ -457,9 +446,9 @@ namespace ogl {
 
         }
 
-        OGL_STATUS_CODE push(const char* path_, SHADER_TYPE shader_) {
+        OGL_STATUS_CODE push(const char* path_, SHADER_TYPE shader_, glm::mat4 (*modelMatrix_)()) {
 
-            modelLoadingQueue.push_back(std::make_pair(path_, shader_));
+            modelLoadingQueue.push_back({ path_, shader_, modelMatrix_ });
 
             return ogl::errorCodeBuffer;
 
