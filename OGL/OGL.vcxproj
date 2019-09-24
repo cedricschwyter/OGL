@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -126,6 +126,7 @@
     <ClCompile Include="BaseVertex.hpp" />
     <ClCompile Include="CenterCamera.cpp" />
     <ClCompile Include="../ext\glad\src\glad.c" />
+    <ClCompile Include="Core.cpp" />
     <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="Logger.cpp" />
@@ -134,8 +135,8 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ModelInfo.cpp" />
     <ClCompile Include="OGL.cpp" />
-    <ClCompile Include="OGLEngine.cpp" />
     <ClCompile Include="SDL_STATUS_CODE.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SHADER_TYPE.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="BaseCamera.hpp" />
     <ClInclude Include="CenterCamera.hpp" />
     <ClInclude Include="ConsoleColor.hpp" />
+    <ClInclude Include="Core.hpp" />
     <ClInclude Include="FPSCamera.hpp" />
     <ClInclude Include="LoadingScreen.hpp" />
     <ClInclude Include="Logger.hpp" />
@@ -153,7 +155,6 @@
     <ClInclude Include="Mesh.hpp" />
     <ClInclude Include="Model.hpp" />
     <ClInclude Include="OGL.hpp" />
-    <ClInclude Include="OGLEngine.hpp" />
     <ClInclude Include="OGL_STATUS_CODE.hpp" />
     <ClInclude Include="Shader.hpp" />
     <ClInclude Include="Version.hpp" />

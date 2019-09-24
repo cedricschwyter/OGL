@@ -401,7 +401,7 @@ namespace ogl {
 
             for (auto info : modelLoadingQueue) {
 
-                Shader* shader;
+                Shader* shader = nullptr;
                 if (info.shader == ST_STANDARD) {
 
                     shader = standardShader;
@@ -411,7 +411,7 @@ namespace ogl {
                 Model* model = new Model(info.path, *shader, info.modelMatrixFunc);
 
                 std::scoped_lock< std::mutex > lock(modelsPushBackMutex);
-                models.push_back(model);;
+                models.push_back(model);
                 logger::log(EVENT_LOG, "Successfully loaded model at " + std::string(info.path));
 
             }
