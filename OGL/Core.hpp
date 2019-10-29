@@ -8,8 +8,8 @@
 	@brief		Declaration of the Core class
 */
 
-#ifndef OGL_ENGINE_HPP
-#define OGL_ENGINE_HPP
+#ifndef OGL_CORE_HPP
+#define OGL_CORE_HPP
 #include "Version.hpp"
 
 #include <glad/glad.h>
@@ -206,4 +206,4 @@ namespace ogl {
     }
 
 }
-#endif  // OGL_ENGINE_HPP
+#endif  // OGL_CORE_HPP
