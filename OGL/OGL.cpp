@@ -25,8 +25,11 @@ namespace ogl {
     const double                SPEED                           = 2.0;
     const double                SENS                            = 0.1;
     const double                FOV                             = 45.0;
+    glm::vec3                   centerCameraTarget              = ORIGIN;
 
     std::mutex                  bufferGenerationMutex;
+
+    void                        (*kipCallback)(GLFWwindow*);
 
     OGL_STATUS_CODE init() {
     
@@ -109,6 +112,18 @@ namespace ogl {
         core::push(path_, shader_, modelMatrix_);
 
         return errorCodeBuffer;
+    
+    }
+
+    void keyboardInputCallback(GLFWwindow* window_) {
+    
+        (*kipCallback)(window_);
+    
+    }
+
+    void setKeyboardInputCallback(void (*kipCallback_)(GLFWwindow* window_)) {
+    
+        kipCallback = kipCallback_;
     
     }
 

@@ -34,7 +34,10 @@ namespace ogl {
     extern const double                         SPEED;
     extern const double                         SENS;
     extern const double                         FOV;
+    extern glm::vec3                            centerCameraTarget;
     extern std::mutex                           bufferGenerationMutex;
+
+    extern void                                 (*kipCallback)(GLFWwindow*);
 
     /**
         Initializes the OGLEngine object
@@ -88,6 +91,20 @@ namespace ogl {
         @return     Returns OGL_SC_SUCCESS on success
     */
     OGL_STATUS_CODE push(const char* path_, SHADER_TYPE shader_, glm::mat4 (*modelMatrix_)());
+
+    /**
+        Calls the keyboard input callback function defined by the user
+
+        @param      window_     A pointer to the GLFWwindow of the application
+    */
+    void keyboardInputCallback(GLFWwindow* window_);
+
+    /**
+        Sets the keyboard input callback
+
+        @param      kipCallback_    The functionpointer to the callback function
+    */
+    void setKeyboardInputCallback(void (*kipCallback_)(GLFWwindow* window_));
 
 }
 #endif  // OGL_HPP

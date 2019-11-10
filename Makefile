@@ -4,10 +4,13 @@ LDFLAGS = `pkg-config --static --libs glfw3` -lGL -lassimp -lSDL2 -lSDL2_image -
 OGLTest: OGL/*.cpp
 	$(CXX) $(CFLAGS) -o "bin/Linux/x64/OGL by D3PSI" OGL/*.cpp ext/glad/src/glad.c $(LDFLAGS)
 
-.PHONY: run clean
+.PHONY: run debug clean
 
 run: OGLTest
 	./RUN.sh
+
+debug: OGLTest
+	./DEBUG.sh
 
 clean:
 	rm -f "OGL/OGL by D3PSI" "bin/Linux/x64/OGL by D3PSI"

@@ -337,7 +337,7 @@ namespace ogl {
                     else {
 
                         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-                        camera = new CenterCamera(ORIGIN, 5.0f);
+                        camera = new CenterCamera(ogl::centerCameraTarget, 5.0f);
                         pressed = true;
 
                     }
@@ -348,6 +348,7 @@ namespace ogl {
             }
 
             camera->processKeyboardInput(window);
+            ogl::keyboardInputCallback(window);
 
             return ogl::errorCodeBuffer;
 
