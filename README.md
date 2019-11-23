@@ -6,6 +6,10 @@ This project features the second part of my matura thesis which is about compari
 
 The project itself has been written in C++17 and the OpenGL Core Version 4.6.
 
+## Double Pendulum Simulation
+The video for the comparison of the two double pendulums can be found here: 
+https://www.dropbox.com/sh/ctnefnmycs6zo5f/AACb-YRdl-YjTGpkaIwxF0Gsa?dl=0
+
 ## Requirements
 
 The only real requirement your system has to have is a GPU (preferrably a dedicated one) that supports OpenGL (obviously).
