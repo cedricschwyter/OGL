@@ -4,6 +4,8 @@
 
 This project features the second part of my matura thesis which is about comparing the Vulkan API and OpenGL with one another. This repository contains the source code for the OpenGL application. The first part can be found here: [https://github.com/D3PSI/VK](https://github.com/D3PSI/VK)
 
+The final document I turned in is also on GitHub: [D3PSI/matura-thesis-latex](https://github.com/D3PSI/matura-thesis-latex)
+
 The project itself has been written in C++17 and the OpenGL Core Version 4.6.
 
 ## Double Pendulum Simulation
